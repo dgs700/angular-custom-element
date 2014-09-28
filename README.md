@@ -1,15 +1,40 @@
-## AngularJS Web Components Custom Element 
+## AngularJS Web Components - Custom Element 
 
-#### Define and export custom elements 
+Why wait for AngularJS 2.0 to start writing Angular code for the W3C Web Components specifications? With just a tiny, 2kb, Custom Element polyfill plus this provider you can define, export, import, and use Custom Elements within your AngularJS application or component today.  Your AngularJS element directives can now be real, bonified Custom Element directives.  The element properties are seemlesly bound to your directive $scope, so changes from outside Angular will be immediately reflected internally.  
 
-#### Matching directives can bind $scope to custom element properties
+#### What?
 
-#### Handles all the Custom Element boilerplate
+**AngularJS Custom Element** is an Angular provider that allows you to define and register W3C spec custom elements in an application config block.  It is also an Angular service meant to be injected into your matching element directive that auto binds the element's custom properties, and attributes to directive scope.  You can access these properties via $scope.el.propertyName, or just "el.propertyName" in your template bindings.
 
-#### Limitied import ability for Elements defined elsewhere
+There is a lot of code boilerplate involved in Custom Element definitions, and even more when it comes time to integrate the element with AngularJS's data-binding.  One of the goals of this provider is to reduce that down to just a little bit of configuration and convention, and keep everything as simple, minimalist, performant, and compatible as possible- just like the rest of AngularJS.
 
-#### Works with all major browsers (IE9+) with just a 2k custom element polyfill
+Because of this, all of the other Web Components APIs are beyond this provider's scope because they cannot be shimmed in a way that is acceptible with widescale production development.  Unfortunately this includes all the lovely style encapsulation we'll get with Shadow DOM.
 
-### APIs docs and examples coming soon
+#### Where?
+
+**All modern browsers** including IE 9+, and any existing or yet to be coded Angular element directives.
+
+#### Why?
+
+Because Custom Element APIs, which are essentially HTML element attributes, properties, methods and events, are becoming the common interface through which web components, applications, toolkits and even different frameworks interact.  Reusable UI components will no longer be restricted to the scope of a particular framework, and components will inherit logic and data directly from other components or elements.
+
+The days of the Angular $scope, as we know it, are numbered.  It's very likely that if there is such a thing as $scope in an AngularJS 2.0 component directive, the $scope would be the Custom Element that the component directive exports.  By moving component specific data and logic out of the controller and onto the element, code shelf-life will become much longer.
+
+Unlike the other Web Component polyfills such as Shadow DOM, the Custom Element registration polyfill is very small, simple and reasonably performant/stable meaning the risk of use in large scale, production web applications now is very low.  One of the goals of this small add-on is to build upon the polyfill in a manner that can be used to enhance any Angular element directive.
+
+#### How?
+
+As long as a browser has DOM mutation observer capability, the Custom Element API can be easily shimmed. The one exception is the new css pseudo **:unresolved**, but FOUC can be easily prevented in other ways. Chrome already supports the API natively, and Mozilla will shortly.
+
+The other task is triggering a $digest cycle for element properties that are mutated from outside Angular. Neither Object.observe or DOM Mutation Observers work with element properties due to certain, potential performance reasons.  However, because we can define element properties using ES5 Object property setters and getters, we can invoke callback functions that include an injected $scope.$digest() and trigger custom change events whenever the property setter is called during a mutation.  Any data-binding framework, not just Angular, can use these hooks and events to bind to the Custom Element.
+
+#### Who?
+
+Myself and anyone who wants to help with testing across browsers and suggestion and/or code to help improve.  There are so many DOM peculiarities and weird use-case situations that it is impossible for one person to conceive of comprehensive test coverage. 
+
+
+### APIs docs and examples coming soon...
+
+
 
 
