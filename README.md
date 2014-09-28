@@ -35,6 +35,8 @@ Myself and anyone who wants to help with testing across browsers and suggestion 
 
 ### APIs docs and examples coming soon...
 
+See the code in the examples directory for inline docs
+
 
 
 

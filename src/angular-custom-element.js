@@ -312,6 +312,8 @@
                             attributes: true,
                             childList: true,
                             characterData: true
+                            //attributeOldValue: true,
+                            //attributeFilter: [attr]
                         });
                     return observer;
                 }
