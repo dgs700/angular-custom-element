@@ -69,6 +69,15 @@ app.config(['$customElementsProvider', function ($customElementsProvider) {
                 // creates a read only property (defaults to false). must include the initial value option, and no
                 // matching attribute (or it is ignored)
                 readOnly: true
+            },
+            booleanProperty: {
+                attribute: {
+                    name: 'bool-prop',
+
+                    // set boolean: true in order for the attribute to be treated as boolean
+                    // not functional yet
+                    boolean: true
+                }
             }
         },
 
