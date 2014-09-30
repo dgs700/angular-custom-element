@@ -73,11 +73,11 @@ app.config(['$customElementsProvider', function ($customElementsProvider) {
             booleanProperty: {
                 attribute: {
                     name: 'bool-prop',
-
-                    // set boolean: true in order for the attribute to be treated as boolean
-                    // not functional yet
+                    // note that "true" here just signifies that the attr should
+                    // treated as a boolean,
                     boolean: true
-                }
+                },
+                value: true
             }
         },
 
