@@ -75,23 +75,37 @@ app.config(['$customElementsProvider', function ($customElementsProvider) {
                     name: 'bool-prop',
                     // note that "true" here just signifies that the attr should
                     // treated as a boolean,
-                    boolean: true
+                    boolean: true // default is false
                 },
-                value: true
+                value: true // default is false
             }
         },
 
+        // In all callbacks "this" referes to the element instance
         callbacks: {
 
+            // is called upon custom element instantiation which is effectively the element
+            // constructor function (for the custom parts)
+            // This happens when the browser finds a tag on load parse, or elemement is
+            // created programatically including from a template
             created: function(){
-                //console.log('created')
+                // include any special logic
+                // console.log('created')
             },
+
+            // is called when the element is inserted into the DOM
             attached: function(){
                 //console.log('attached')
             },
+
+            // is called when the element is removed from the DOM
             detached: function (){
+                // include any cleanup logic
                 //console.log('detached')
             },
+
+            // called upon any attribute change including attr set programatically
+            // during element instantiation (but not if the elem already exists in markup)
             attributeChanged: function(attr, oldVal, newVal){
                 //console.log('attributeChanged', attr, oldVal, newVal)
             }
@@ -101,7 +115,7 @@ app.config(['$customElementsProvider', function ($customElementsProvider) {
         members: {
 
             // no options, just include a name and function
-            elementProtoMethod: function(args){
+            elementMethod: function(args){
                 // logic available to any element instance of this type
                 // by calling elem.elementProtoMethod(args)
             },

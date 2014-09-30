@@ -3,8 +3,34 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+    <script
+            src="//cdnjs.cloudflare.com/ajax/libs/document-register-element/0.1.2/document-register-element.js"
+            >/* W3C Custom Elements */</script>
+    <script src="path_to/angular.min.js"></script>
+    <!-- load the provider/service  -->
+    <script src="path_to/angular-register-element.js"></script>
+
 </head>
 <body>
 
+<p>
+    <smart-button
+            property-one="text value"
+            bool-prop
+            ng-class="dark"
+            ></smart-button>
+</p>
+<p><!-- dynamic component version-->
+    <smart-button
+
+            propertynametwo="another value"
+            ng-click="el.elementMethod()"
+            >{{ el.propertyNameOne }}</smart-button>
+</p>
+
+<!-- load the app.config block with Custom Element definitions -->
+<script src="example-config.js"></script>
+<!-- load matching directives -->
+<script src="path_to/smart-button-directive.js"></script>
 </body>
 </html>
