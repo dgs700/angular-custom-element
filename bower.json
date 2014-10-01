@@ -1,0 +1,26 @@
+{
+    "name": "angular-custom-element",
+    "version": "0.0.1",
+    "homepage": "https://github.com/dgs700/angular-custom-element",
+    "authors": {
+        "name": "David Shapiro",
+        "email": "dave@david-shapiro.net",
+        "url": "https://github.com/dgs700"
+    },
+    "description": "W3C Custom Element integration for AngularJS",
+    "main": "dist/angular-custom-element.min.js",
+    "keywords": [
+        "Angular",
+        "Components"
+    ],
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "src",
+        "node_modules",
+        "test"
+    ],
+    "dependencies": {
+        "angular": "~1.2.16"
+    }
+}

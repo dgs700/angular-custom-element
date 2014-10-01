@@ -1,0 +1,51 @@
+{
+    "name": "AngularCustomElement",
+    "version": "0.0.1",
+    "description": "AngularJS Web Component Development companian examples and code",
+    "devDependencies": {
+        "grunt": "~0.4.4",
+        "grunt-contrib-concat": "^0.4.0",
+        "grunt-contrib-copy": "^0.5.0",
+        "grunt-contrib-uglify": "^0.4.0",
+        "grunt-conventional-changelog": "^1.1.0",
+        "grunt-karma": "^0.8.3",
+        "grunt-cli": "~0.1.11",
+        "karma": "^0.12.14",
+        "karma-chrome-launcher": "^0.1.4",
+        "karma-jasmine": "^0.1.5",
+        "karma-phantomjs-launcher": "^0.1.4"
+    },
+    "directories": {
+        "test": "test",
+        "src": "src",
+        "lib": "lib",
+        "dist": "dist",
+        "build": "build",
+        "examples":"examples"
+    },
+    "scripts": {
+        "test": "./test/test.sh"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dgs700/angular-custom-element"
+    },
+    "keywords": [
+        "angular",
+        "angularjs",
+        "web",
+        "components",
+        "custom",
+        "element"
+    ],
+    "author": {
+        "name": "David Shapiro",
+        "email": "dave@david-shapiro.net",
+        "url": "https://github.com/dgs700"
+    },
+    "license": "MIT",
+    "readmeFilename": "README.md",
+    "bugs": {
+        "url": "https://github.com/dgs700/angular-custom-element/issues"
+    }
+}
