@@ -195,7 +195,7 @@
                             try {
                                 el.onPropChange(val);
                                 if(attr && bool){
-                                    (val) ? el.setAttribute(attr, !!val) : el.removeAttribute(attr);
+                                    (val) ? el.setAttribute(attr, '') : el.removeAttribute(attr);
                                 } else if(attr) {
                                     el.setAttribute(attr, val);
                                 }
@@ -254,10 +254,8 @@
                         var prop = attributeMap[attr];
                         if (prop.bool && (newVal === '')) newVal = true;
                         this[prop.name] = (prop.bool) ? !!newVal : newVal;
-                        this.setterCalled[attr] = false;
-                    }else if(attributeMap[attr]){
-                        this.setterCalled[attr] = false;
                     }
+                    this.setterCalled[attr] = false;
                     var output = attributeChanged ? attributeChanged.apply(this, arguments) : null;
                     return output;
                 }
