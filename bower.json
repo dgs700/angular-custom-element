@@ -10,8 +10,11 @@
     "description": "W3C Custom Element integration for AngularJS",
     "main": "dist/angular-custom-element.min.js",
     "keywords": [
-        "Angular",
-        "Components"
+        "AngularJS",
+        "custom element",
+        "web components",
+        "data binding",
+        "export"
     ],
     "license": "MIT",
     "ignore": [
@@ -21,6 +24,6 @@
         "test"
     ],
     "dependencies": {
-        "angular": "~1.2.16"
+        "angular": "1.2.x"
     }
 }
