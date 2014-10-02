@@ -1,3 +1,0 @@
-[submodule "lib/CustomElements"]
-	path = lib/CustomElements
-	url = https://github.com/WebReflection/document-register-element.git
