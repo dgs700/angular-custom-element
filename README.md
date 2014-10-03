@@ -25,13 +25,13 @@ Unlike the other Web Component polyfills such as Shadow DOM, the Custom Element 
 * work across **all modern browsers** (IE9+)
 * be suitable for production grade, consumer facing code (unlike Polymer)
 * be **performant and small** (9kb including polyfill dependency)
-* export Custom Elements that can be shared, consumed, and bound by other data-binding frameworks
-* provide support for importing and binding to Custom Elements from other sources 
+* **export Custom Elements** that can be shared, consumed, and bound by other data-binding frameworks
+* provide **support for importing** and binding to Custom Elements from other sources 
 * do one thing, and do it well 
 * help component developers write **longer lasting code**
-* help developers to start getting a feel for the web development APIs of the near future
+* help developers to start getting a feel for the **web development APIs of the near future**
 * attempt to reflect, where possible, the decisions about how component directives will function in the AngularJS 2.0 design docs
-* be a **community** project
+* be a **community** driven project
 
 #### How?
 
@@ -58,16 +58,25 @@ You just need to load `angular-custom-element.min.js` after Angular.js and befor
 
 #### Injecting into your app
 
-````
+````javascript
 // 1. include your element directive and Custom Element provider as dependencies
 var app = angular.module('MyApp',['myComponents.smartButton', 'customElements']);
 ````
 
 #### Defining Custom Elements in an Angular module config block
 
-````
+````javascript
 // 2. inject $customElementsProvider into a config block
 app.config(['$customElementsProvider', function ($customElementsProvider) {
+````
+
+The `.register()` method:
+````javascript
+// 3. call the .register() function with a tag name (including namespace plus dash plus name)
+// and the custom element config object (very similar to X-Tag config). Your directive names must match.
+$customElementsProvider.register('elem-name1', { configObject1 })
+    .register('elem-name2', { configObject2 })
+    .register('elem-name3', { configObject3 });    
 ````
 
 
