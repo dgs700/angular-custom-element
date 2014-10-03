@@ -221,5 +221,60 @@ members: {
 
 #### Enabling the Custom Element in your matching element directive
 
+$watchElement(scope, element) in your directive controller:
+````javascript
+// This is the only line of code that is required.
+// this command takes care of binding all custom properties
+// to the $scope including triggering a $digest() when
+// any custom property is changed outside of Angular
+// After this line you can enjoy the full power of AngularJS
+// when interacting with your Custom Element
+$customElements.$watchElement($scope, $element);
+````
+
+Custom Element instance and prototype property change events:
+````javascript
+// bind to a Custom Elem Prototype prop if needed
+// for something that affects all elem intances such as a
+// theme change.
+$document.on('member:changed', function(evt){
+    if(evt.detail.propName == 'a protopype prop we need to watch'){
+        // i.e. $scope.el.__proto__.memberNameOne
+        $log.log(evt.detail);
+        $scope.$emit(evt.detail);
+        // other stuff
+    }
+});
+
+// bind to an event on the element
+// since all prop changes generate a change event
+// other frameworks in the page can import and react
+// to the same component
+$element.on('prop:changed', function(evt){
+    $log.log(evt.detail);
+    $scope.$emit(evt.detail);
+    // other stuff
+});
+````
+
+Miscellaneous:
+````javascript
+// gets the original custom elem config obj mostly for any debug
+var info = $customElements.info($element);
+
+// bind to a foreign Custom Element i.e. something from X-Tags or Polymer
+// binding is currently limited to attribute values unless the element
+// broadcasts property change events like those above
+$customElements.$importElement($scope, $element, ['array','of','property','names']);
+````
+
+#### Directive definition guidelines for paring with Custom Elements:
+...coming soon, see the example code for now
+
+#### Template bindings
+...coming soon, see the example code for now
+
+
+
 
 
