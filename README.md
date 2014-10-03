@@ -8,7 +8,7 @@ Why wait for AngularJS 2.0 to start writing Angular code for the **W3C Web Compo
 
 There is a lot of code boilerplate involved in Custom Element definitions, and even more when it comes time to integrate the element with AngularJS's data-binding.  One of the goals of this provider is to reduce that down to just a little bit of configuration and convention, and keep everything as simple, minimalist, performant, and compatible as possible- just like the rest of AngularJS.
 
-Because of this, all of the other Web Components APIs are beyond this provider's scope because they cannot be shimmed in a way that is acceptible with widescale production development.  Unfortunately this includes all the lovely style encapsulation we'll get with Shadow DOM.
+This module is focused exclusively on Custom Elements because their APIs are the integration point for AngularJS and any other app framework.  Other Web Components APIs, including Shadow DOM, HTML Imports, and Template tags are beyond this scope because their usage is essentially independent of any framework internals and/or the polyfills aren't suitable for current use in widescale production code for one reason or another.
 
 #### Where?
 
@@ -20,15 +20,15 @@ Because Custom Element APIs, which are essentially HTML element attributes, prop
 
 Unlike the other Web Component polyfills such as Shadow DOM, the Custom Element registration polyfill is very small, simple and reasonably performant/stable meaning the risk of use in large scale, production web applications now is very low.  One of the goals of this small add-on is to build upon the polyfill in a manner that can be used to enhance any Angular element directive.  Additional goals and opinions of ths module are:
 
-* provide a simple element config API, very similar to X-Tags
-* provide an even simpler service API (just one line of code in your directive controller)
-* work across all modern browsers (IE9+)
+* provide a **simple element config API**, very similar to X-Tags
+* provide an even **simpler service API** (just one line of code in your directive controller)
+* work across **all modern browsers** (IE9+)
 * be suitable for production grade, consumer facing code (unlike Polymer)
-* be performant and small (5-6kb)
+* be **performant and small** (9kb including polyfill dependency)
 * export Custom Elements that can be shared, consumed, and bound by other data-binding frameworks
 * provide support for importing and binding to Custom Elements from other sources 
 * do one thing, and do it well 
-* help component developers write longer lasting code
+* help component developers write **longer lasting code**
 * help developers to start getting a feel for the web development APIs of the near future
 * attempt to reflect, where possible, the decisions about how component directives will function in the AngularJS 2.0 design docs
 * be a **community** project
@@ -44,10 +44,34 @@ The other task is triggering a $digest cycle for element properties that are mut
 Myself and anyone who wants to help with testing across browsers and suggestion and/or code to help improve.  There are so many DOM peculiarities and weird use-case situations that it is impossible for one person to conceive of comprehensive test coverage or anticipate every edge-case bug. 
 
 
-### APIs docs and examples coming soon...
+### API Documentation
 
-See the code in the examples directory for inline docs
+* See the code in the usage examples directory for inline docs.  It's written so the documentation is self-explanitory and you can cut and paste the code into your app to get started.
 
+#### Getting the module
+
+You just need to load `angular-custom-element.min.js` after Angular.js and before your app or component modules. The file is available via:
+
+* Bower: `$> bower install angular-custom-element`
+* fork or clone this repo
+* just copy [angular-custom-element.min.js from here](https://raw.githubusercontent.com/dgs700/angular-custom-element/master/dist/angular-custom-element.min.js)
+
+#### Injecting into your app
+
+````
+// 1. include your element directive and Custom Element provider as dependencies
+var app = angular.module('MyApp',['myComponents.smartButton', 'customElements']);
+````
+
+#### Defining Custom Elements in an Angular module config block
+
+````
+// 2. inject $customElementsProvider into a config block
+app.config(['$customElementsProvider', function ($customElementsProvider) {
+````
+
+
+#### Enabling the Custom Element in your matching element directive
 
 
 
