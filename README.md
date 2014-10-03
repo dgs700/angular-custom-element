@@ -14,6 +14,10 @@ This module is focused exclusively on Custom Elements because their APIs are the
 
 **All modern browsers** including IE 9+, and any existing or yet to be coded Angular element directives.
 
+#### When?
+
+From now until AngularJS 2.0 is in widescale production. AngularJS 2.0 Component Directives will replace this functionality.  It seems this lib was already deprecated before it was released :-0
+
 #### Why?
 
 Because Custom Element APIs, which are essentially HTML element attributes, properties, methods and events, are becoming the common interface through which web components, applications, toolkits and even different frameworks interact.  Reusable UI components will no longer be restricted to the scope of a particular framework, and components will inherit logic and data directly from other components or elements.  By moving component specific data and logic out of the controller and onto the element, code shelf-life will become much longer.
