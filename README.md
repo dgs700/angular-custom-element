@@ -225,6 +225,17 @@ members: {
 
 #### Enabling the Custom Element in your matching element directive
 
+Inject 
+````javascript
+// Inject the Custom Element service
+angular.module('myComponents.smartButton', ['customElements'])
+    // An example of how an AngularJS 1.x "component" directive
+    // might be defined including the Angular independent
+    // custom element config that is exported to the DOM
+    .directive('smartButton', [
+        '$customElements', function($customElements){
+````
+
 $watchElement(scope, element) in your directive controller:
 ````javascript
 // This is the only line of code that is required.
@@ -234,6 +245,9 @@ $watchElement(scope, element) in your directive controller:
 // After this line you can enjoy the full power of AngularJS
 // when interacting with your Custom Element
 $customElements.$watchElement($scope, $element);
+
+// now you can add bindings in your controllers and templates
+// $scope.el.propertyName or el.propertyName 
 ````
 
 Custom Element instance and prototype property change events:
