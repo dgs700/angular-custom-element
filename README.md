@@ -225,7 +225,7 @@ members: {
 
 #### Enabling the Custom Element in your matching element directive
 
-Inject 
+Inject the service into the directive
 ````javascript
 // Inject the Custom Element service
 angular.module('myComponents.smartButton', ['customElements'])
