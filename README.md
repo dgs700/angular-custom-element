@@ -287,7 +287,27 @@ $customElements.$importElement($scope, $element, ['array','of','property','names
 ````
 
 #### Directive definition guidelines for paring with Custom Elements:
-...coming soon, see the example code for now
+
+The plan for AngularJS 2.0 Component Directives (based on the current design docs) is to
+simplify the directive definition object.  Component Directives will automatically have:
+
+* An isolate (component) scope, `scope: {}`
+* Matching restricted to tag names, `restrict: 'E'`
+* Templates appended to the tag (vs replacing the tag), `replace: false`
+
+An isolate scope is a must for the proper encapsulation of a component. Otherwise it loses 
+portability, reusability, etc.  Appended templates are necessary since deleting
+the custom element tag defeats the entire purpose of using one. It also improves 
+declarativeness and allows other frameworks in the page to use the custom element. 
+
+Matching only via element name in AngularJS 1.x.x is recommended in most cases. The gray area
+would be Custom Elements that extend existing tags and therefor must use the tag name of the
+extended element with an is="custom-tagname" attribute, i.e. `<input is="smart-input">`. There's
+no best practice for how to handle this in Angular.  The syntax proposed by the W3C is much less
+declarative for "extended" tags.  Hopefully that will change, but for now, one suggested
+solution would be to create a skeleton custom element that acts as a wrapper and proxy for
+the extended element to the associated directive, and have the extended element as the template
+for the wrapper element.
 
 #### Template bindings
 ...coming soon, see the example code for now
