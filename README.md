@@ -10,6 +10,8 @@ There is a lot of code boilerplate involved in Custom Element definitions, and e
 
 This module is focused exclusively on Custom Elements because their APIs are the integration point for AngularJS and any other app framework.  Other Web Components APIs, including Shadow DOM, HTML Imports, and Template tags are beyond this scope because their usage is essentially independent of any framework internals and/or the polyfills aren't suitable for current use in widescale production code for one reason or another.
 
+Instead of 2-way data-binding, you can now have **3-way data-binding**.
+
 #### Where?
 
 **All modern browsers** including IE 9+, and any existing or yet to be coded Angular element directives.
@@ -255,8 +257,10 @@ $customElements.$watchElement($scope, $element);
 **Custom Element instance and prototype property change events:**
 ````javascript
 // bind to a Custom Elem Prototype prop if needed
-// for something that affects **all elem intances** such as a
+// for something that affects all elem intances such as a
 // theme change.
+// NOTE: that these bindings must be specifically destroyed on
+// the $destroy event for the directive to avoid memory leaks 
 $document.on('member:changed', function(evt){
     if(evt.detail.propName == 'a protopype prop we need to watch'){
         // i.e. $scope.el.__proto__.memberNameOne
@@ -327,12 +331,18 @@ property or method can be bound in the template. Note that html5 *standard prope
 in your templates, only the the props you define can.  
 
 ````html
-<!--  -->
+<!-- bind to an element function and a tag property -->
 <a ng-click="el.doSomething(this)">
     {{ el.bttnText }}
 </a>
 ````
 
+### FAQs
 
+### Get Involved
+
+If you like the ideas behind this module, PLEASE help by forking, using, identifying bugs and
+functionality that is either missing or could be improved, testing, contributing code for tests,
+bug fixes, and feature improvements. 
 
 
