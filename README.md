@@ -25,7 +25,7 @@ Because Custom Element APIs, which are essentially HTML element attributes, prop
 Unlike the other Web Component polyfills such as Shadow DOM, the Custom Element registration polyfill is very small, simple and reasonably performant/stable meaning the risk of use in large scale, production web applications now is very low.  One of the goals of this small add-on is to build upon the polyfill in a manner that can be used to enhance any Angular element directive.  Additional goals and opinions of ths module are:
 
 * provide a **simple element config API**, very similar to X-Tags
-* provide an even **simpler service API** (just one line of code in your directive controller)
+* provide an even **simpler service API** (just one line of code in your directive link or controller fn)
 * work across **all modern browsers** (IE9+)
 * be suitable for production grade, consumer facing code (unlike Polymer)
 * be **performant and small** (9kb including polyfill dependency)
@@ -50,7 +50,7 @@ Myself and anyone who wants to help with testing across browsers and suggestion 
 
 ### API Documentation
 
-* See the code in the usage examples directory for inline docs.  It's written so the documentation is self-explanitory and you can cut and paste the code into your app to get started.
+* Also see the code in the usage examples directory for inline docs.  It's written so the documentation is self-explanitory and you can cut and paste the code into your app to get started.
 
 #### Getting the module
 
@@ -74,7 +74,7 @@ var app = angular.module('MyApp',['myComponents.elementDirectives', 'customEleme
 app.config(['$customElementsProvider', function ($customElementsProvider) {
 ````
 
-The `.register()` method:
+**The `.register()` method:**
 ````javascript
 // 3. call the .register() function with a tag name (including namespace plus dash plus name)
 // and the custom element config object (very similar to X-Tag config). Your directive names must match.
@@ -83,7 +83,7 @@ $customElementsProvider.register('elem-name1', { configObject1 })
     .register('elem-name3', { configObject3 });    
 ````
 
-The config object options (very similar to X-Tags):
+**The config object options (similar to X-Tags, but not the same):**
 ````javascript
 // parent: <elem prototype> (optional) - is the element prototype we wish to inherit from
 // it defaults to HTMLElement
@@ -129,8 +129,8 @@ properties: {
             name: 'property-one'
         }
     },
-    propertyNameTwo: {
-        // will match or create an attr named propertynametwo="..."
+    antoherPropertyName: {
+        // will match or create an attr named anotherpropertyname="..."
         // UNLESS the "readOnly:true" option is included (see below)
         attribute: {},
 
@@ -145,7 +145,7 @@ properties: {
         // matching attribute (or it is ignored)
         readOnly: true
     },
-    booleanProperty: {
+    aBooleanProperty: {
         attribute: {
             name: 'bool-prop',
             // note that "true" here just signifies that the attr should
@@ -156,6 +156,7 @@ properties: {
     }
 },
 // In all callbacks "this" referes to the element instance
+// since that is the context where these are invoked
 callbacks: {
 
     // is called upon custom element instantiation which is effectively the element
@@ -189,9 +190,10 @@ callbacks: {
 members: {
 
     // no options, just include a name and function
-    elementMethod: function(args){
+    elementMethodName: function(args){
         // logic available to any element instance of this type
         // by calling elem.elementProtoMethod(args)
+        // All of your custom element 
     },
 
     // in the RARE case where a property needs to be accessable by ALL element instances of
@@ -199,7 +201,7 @@ members: {
     // listener attached to the document.
     // One example use case might be a re-themeing of all elements during a page app lifecycle.
     // the attribute option is not available for this
-    memberNameOne: {
+    memberPropName: {
 
         // same as element property
         get: function(val){
@@ -225,7 +227,7 @@ members: {
 
 #### Enabling the Custom Element in your matching element directive
 
-Inject the service into the directive
+**Inject the service into the directive**
 ````javascript
 // Inject the Custom Element service
 angular.module('myComponents.smartButton', ['customElements'])
@@ -236,7 +238,7 @@ angular.module('myComponents.smartButton', ['customElements'])
         '$customElements', function($customElements){
 ````
 
-$watchElement(scope, element) in your directive controller:
+**$watchElement(scope, element)** in your directive controller:
 ````javascript
 // This is the only line of code that is required.
 // this command takes care of binding all custom properties
@@ -247,13 +249,13 @@ $watchElement(scope, element) in your directive controller:
 $customElements.$watchElement($scope, $element);
 
 // now you can add bindings in your controllers and templates
-// $scope.el.propertyName or el.propertyName 
+// `$scope.el.propertyName` or `{{el.propertyName}}`
 ````
 
-Custom Element instance and prototype property change events:
+**Custom Element instance and prototype property change events:**
 ````javascript
 // bind to a Custom Elem Prototype prop if needed
-// for something that affects all elem intances such as a
+// for something that affects **all elem intances** such as a
 // theme change.
 $document.on('member:changed', function(evt){
     if(evt.detail.propName == 'a protopype prop we need to watch'){
@@ -275,7 +277,7 @@ $element.on('prop:changed', function(evt){
 });
 ````
 
-Miscellaneous:
+**Miscellaneous:**
 ````javascript
 // gets the original custom elem config obj mostly for any debug
 var info = $customElements.info($element);
@@ -302,16 +304,34 @@ declarativeness and allows other frameworks in the page to use the custom elemen
 
 Matching only via element name in AngularJS 1.x.x is recommended in most cases. The gray area
 would be Custom Elements that extend existing tags and therefor must use the tag name of the
-extended element with an is="custom-tagname" attribute, i.e. `<input is="smart-input">`. There's
-no best practice for how to handle this in Angular.  The syntax proposed by the W3C is much less
+extended element with an `is="custom-tagname"` attribute, i.e. `<input is="smart-input">`. 
+
+There's no best practice for how to handle this in Angular.  The syntax proposed by the W3C is much less
 declarative for "extended" tags.  Hopefully that will change, but for now, one suggested
 solution would be to create a skeleton custom element that acts as a wrapper and proxy for
 the extended element to the associated directive, and have the extended element as the template
 for the wrapper element.
 
-#### Template bindings
-...coming soon, see the example code for now
+Your directive definition will need a link and/or controller function in which to invoke the service
+command that data-binds element properties: `$watchElement(scope, element)`.  For simple, stand-alone
+components you should be able to invoke this anywhere.  But if you have a "complex" or "container" component 
+element that has bindings and interactions with child components, the safest place to invoke $watchElement 
+would be in an actual `postLink: function(scope elem){...}` function block.  postLink is invoked after
+the full creation and insertion of all children elements.
 
+#### Template bindings
+
+Binding to custom element properties and functions couldn't be more simple.  After `$watchElement()` is
+invoked which attaches **el** for the element instance reference to the $scope object, any custom
+property or method can be bound in the template. Note that html5 *standard properties* cannot be data-bound
+in your templates, only the the props you define can.  
+
+````html
+<!--  -->
+<a ng-click="el.doSomething(this)">
+    {{ el.bttnText }}
+</a>
+````
 
 
 
