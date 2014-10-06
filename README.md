@@ -94,41 +94,52 @@ $customElementsProvider.register('tag-name1', { elemConfigObj1 })
 #### Options for the Custom Element configuration object
 
 The format and options are similar to X-Tags, but there are some differences.
-**parent: element prototype** (optional) is the element prototype we wish to inherit from.
-It defaults to HTMLElement. 
+
+**parent: element prototype** (optional) is the element prototype we wish to inherit from. 
+It defaults to HTMLElement. You may inherit from standard HTML elements or other custom elements.
 ````javascript
 parent: HTMLButtonElement,
 ````
 
-// extends: <tag name> (optional) - will include all of the parent's properties, but
-// the <button is="smart-button"> tag syntax must appear in the DOM
-// In this situation a matching element directive will not work.  The yet-to-be-coded
-// work around will likely be a matching tag name directive that wraps the real element,
-// or just use the real tag in the template along with the directive replace:true option for now.
-// Either way, we want the HTML monkeys to be able to use <smart-button> syntax.
-````
+**extends: tag name** (optional) will include all of the parent's properties, but
+the `<tagname is="custom-element">` tag syntax must appear in the DOM.
+In this situation a matching element directive will not work.  The yet-to-be-coded
+work around will likely be a matching tag name directive that wraps the real element,
+Or you can just use the real tag in the template along with the directive replace:true option for now.
+Either way, we want the HTML monkeys to be able to use `<custom-element>` syntax for 
+declarativeness and simplicity.
+````javascript
 extends: 'button',
+````
 
-// The properties object contains definitions for the element's instance (or constructor)
-// properties
+The **properties** object contains definitions for the element's instance (or constructor)
+properties. 
+````javascript
 properties: {
-    // the object key (propertyNameOne) becomes the property name on the element
-    propertyNameOne: {
+````
 
-        // include a "get" function (optional) if any adjustments to the value are needed
-        // the syntax is the same as an ES5 Object property getter
+The object key (propertyNameOne) becomes a property name on the element
+````javascript
+    propertyNameOne: {
+````
+
+Include a **get** function (optional) if any calculations or adjustments to the value are needed
+The syntax is the same as an ES5 Object property getter.
+````javascript
         get: function(){
             // do any value calculations
             return valueVar;
         },
-
-        // include a "set" function (optional) if any value adjustments are needed
-        // unlike the ES5 syntax, this function must return the property value
+````
+Include a **set** function (optional) if any value adjustments are needed, or other actions
+that need to happen upon a change. Unlike the ES5 syntax, this function *must return the property value*.
+````javascript
         set: function(val){
             // do any value calculations
             val = val + 'X';
             return val;
         },
+````        
 
         // include an attribute (optional) with attr name (optional) to bind the property
         // value to an attribute value.
