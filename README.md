@@ -68,32 +68,37 @@ You just need to load `angular-custom-element.min.js` after Angular.js and befor
 
 #### Injecting into your app
 
-1. include your element directive and Custom Element provider as dependencies
+1) Include your element directive and Custom Element provider as dependencies.
 ````javascript
 var app = angular.module('MyApp',['myComponents.elementDirectives', 'customElements']);
 ````
 
 #### Defining Custom Elements in an Angular module config block
 
-2. inject $customElementsProvider into a config block
+2) Inject $customElementsProvider into a config block.
 ````javascript
 app.config(['$customElementsProvider', function ($customElementsProvider) {
 ````
 
 **The `.register()` method:**
+
+
+3) Call the .register() function with a tag name (including namespace plus dash plus name)
+and the custom element config object (very similar to X-Tag config). Your directive names must match.
 ````javascript
-// 3. call the .register() function with a tag name (including namespace plus dash plus name)
-// and the custom element config object (very similar to X-Tag config). Your directive names must match.
-$customElementsProvider.register('elem-name1', { configObject1 })
-    .register('elem-name2', { configObject2 })
-    .register('elem-name3', { configObject3 });    
+$customElementsProvider.register('tag-name1', { elemConfigObj1 })
+    .register('tag-name2', { elemConfigObj2 })
+    .register('tag-name3', { elemConfigObj3 });    
 ````
 
-**The config object options (similar to X-Tags, but not the same):**
+#### Options for the Custom Element configuration object
+
+The format and options are similar to X-Tags, but there are some differences.
+**parent: element prototype** (optional) is the element prototype we wish to inherit from.
+It defaults to HTMLElement. 
 ````javascript
-// parent: <elem prototype> (optional) - is the element prototype we wish to inherit from
-// it defaults to HTMLElement
 parent: HTMLButtonElement,
+````
 
 // extends: <tag name> (optional) - will include all of the parent's properties, but
 // the <button is="smart-button"> tag syntax must appear in the DOM
@@ -101,6 +106,7 @@ parent: HTMLButtonElement,
 // work around will likely be a matching tag name directive that wraps the real element,
 // or just use the real tag in the template along with the directive replace:true option for now.
 // Either way, we want the HTML monkeys to be able to use <smart-button> syntax.
+````
 extends: 'button',
 
 // The properties object contains definitions for the element's instance (or constructor)
