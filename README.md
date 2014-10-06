@@ -68,15 +68,15 @@ You just need to load `angular-custom-element.min.js` after Angular.js and befor
 
 #### Injecting into your app
 
+1. include your element directive and Custom Element provider as dependencies
 ````javascript
-// 1. include your element directive and Custom Element provider as dependencies
 var app = angular.module('MyApp',['myComponents.elementDirectives', 'customElements']);
 ````
 
 #### Defining Custom Elements in an Angular module config block
 
+2. inject $customElementsProvider into a config block
 ````javascript
-// 2. inject $customElementsProvider into a config block
 app.config(['$customElementsProvider', function ($customElementsProvider) {
 ````
 
@@ -135,7 +135,7 @@ properties: {
             name: 'property-one'
         }
     },
-    antoherPropertyName: {
+    anotherPropertyName: {
         // will match or create an attr named anotherpropertyname="..."
         // UNLESS the "readOnly:true" option is included (see below)
         attribute: {},
@@ -311,7 +311,7 @@ the custom element tag defeats the entire purpose of using one. It also improves
 declarativeness and allows other frameworks in the page to use the custom element. 
 
 Matching only via element name in AngularJS 1.x.x is recommended in most cases. The gray area
-would be Custom Elements that extend existing tags and therefor must use the tag name of the
+would be Custom Elements that extend existing tags and therefore must use the tag name of the
 extended element with an `is="custom-tagname"` attribute, i.e. `<input is="smart-input">`. 
 
 There's no best practice for how to handle this in Angular.  The syntax proposed by the W3C is much less
