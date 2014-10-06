@@ -1,6 +1,10 @@
 ## AngularJS Web Components - Custom Element 
 
+**Upgrade your AngularJS 1.x.x component directives to Web Components (W3C) Custom Elements!**
+
 Why wait for AngularJS 2.0 to start writing Angular code for the **W3C Web Components** specifications? With just a tiny, 2kb, Custom Element polyfill plus this provider you can define, export, import, and use **Custom Elements** within your AngularJS 1.x.x app or component now.  Your AngularJS element directives can now be real, bonafide Custom Element directives.  The element properties are seemlesly bound to your directive $scope, so changes from outside Angular will be immediately reflected internally.  
+
+Skip to the [API Documentation](#api-documentation)
 
 #### What?
 
@@ -50,7 +54,7 @@ The other task is triggering a $digest cycle for element properties that are mut
 Myself and anyone who wants to help with testing across browsers and suggestion and/or code to help improve.  There are so many DOM peculiarities and weird use-case situations that it is impossible for one person to conceive of comprehensive test coverage or anticipate every edge-case bug. 
 
 
-### API Documentation
+## API Documentation
 
 * Also see the code in the usage examples directory for inline docs.  It's written so the documentation is self-explanitory and you can cut and paste the code into your app to get started.
 
