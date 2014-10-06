@@ -313,27 +313,50 @@
                 // in foreign web components, values limited to primatives
                 // props must be an array of attributeName strings
                 // since only attr changes are detected, props must be linked to
-                // an attr so TODO - would be to generate an attr for any unlinked props
+                // an attr so
+                // TODO - would be to generate an attr for any unlinked props
                 // hopefully it will become a best-practice for all CEs to fire events or
                 // provide callback hooks in property setters fns
-                $importElement: function(scope, el, props){
+                $importElement: function(scope, el, props, eventName){
                     // expects an array of prop names that are bound to attrs
-                    if(!Array.isArray(props)) return false;
-                    props.forEach(function(val, idx, arr){
-                        arr[idx] = arr[idx].toLowerCase();
-                    });
-                    var observer = new MutationObserver(function(mutations){
-                        mutations.forEach(function(mutation){
-                            if(props.indexOf(mutation.attributeName) !== -1) scope.$digest();
+
+                    //if(!Array.isArray(props)) return false;
+                    var observer = null;
+                    var evtBinding = null;
+                    if(Array.isArray(props)){
+                        props.forEach(function(val, idx, arr){
+                            arr[idx] = arr[idx].toLowerCase();
                         });
-                    }).observe(el[0], {
-                            attributes: true,
-                            childList: true,
-                            characterData: true,
-                            attributeOldValue: true
-                            //attributeFilter: [attr]
+                        observer = new MutationObserver(function(mutations){
+                            mutations.forEach(function(mutation){
+                                if(props.indexOf(mutation.attributeName) !== -1) scope.$digest();
+                            });
+                        }).observe(el[0], {
+                                attributes: true,
+                                childList: true,
+                                characterData: true,
+                                attributeOldValue: true
+                                //attributeFilter: [attr]
+                            });
+                    }
+                    // if an external custom element fires a property change event
+                    // and we know the name of it, we can trigger a $digest directly
+                    // on prop changes
+                    // this is untested
+                    if(eventName){
+                        evtBinding = el.addEventListener(eventName, function(){
+                            // we might want to pass back the evt obj at some point
+                            scope.$digest();
                         });
-                    return observer;
+                    }
+                    if(!Array.isArray(props) || !eventName){
+                        return false;
+                    }else{
+                        return {
+                            observer: observer,
+                            eventBinding: evtBinding
+                        };
+                    }
                 }
             };
         }
