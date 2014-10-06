@@ -275,6 +275,8 @@ properties object.
 
 #### Enabling the Custom Element in your matching element directive
 
+(*this section still under construction)
+
 **Inject the service into the directive**
 ````javascript
 // Inject the Custom Element service
@@ -368,6 +370,10 @@ components you should be able to invoke this anywhere.  But if you have a "compl
 element that has bindings and interactions with child components, the safest place to invoke $watchElement 
 would be in an actual `postLink: function(scope elem){...}` function block.  postLink is invoked after
 the full creation and insertion of all children elements.
+
+To learn more about building component directives with AngularJS plus component best practices, check out my 
+book: [Web Component Architecture and Development with AngularJS](https://leanpub.com/web-component-development-with-angularjs). It is free to download or read online while it is still being completed.
+
 
 #### Template bindings
 
