@@ -254,21 +254,17 @@ The attribute option is not available for these. All other options are the same 
 properties object.
 ````javascript    
     memberPropName: {
-
         // same as element property
         get: function(val){
             return val;
         },
-
         // same as element property
         set: function(val){
             val = val + 'X';
             return val;
         },
-
         // same as element property
         value: "blah blah",
-
         // same as element property
         // most prototype properties if needed would ideally be readOnly
         readOnly: true
