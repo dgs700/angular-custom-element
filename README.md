@@ -5,8 +5,10 @@
 Why wait for AngularJS 2.0 to start writing Angular code for the **W3C Web Components** specifications? With just a tiny, 2kb, Custom Element polyfill plus this provider you can define, export, import, and use **Custom Elements** within your AngularJS 1.x.x app or component now.  Your AngularJS element directives can now be real, bonafide Custom Element directives.  The element properties are seemlesly bound to your directive $scope, so changes from outside Angular will be immediately reflected internally.  
 
 Table of Contents
+
 [API Documentation](#api-documentation)
-[Injecting AngularCustomElement into your app](#injecting)
+
+[Injecting AngularCustomElement](#injecting)
 
 #### What?
 
