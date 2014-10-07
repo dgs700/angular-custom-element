@@ -15,7 +15,11 @@
             // prevent dups
             if(registeredElements[name]) return this;
             // CEs must have a dash in the name
-            if((typeof name !== 'string') || (name.indexOf('-') === -1)) return this;
+            if((typeof name !== 'string') || !/.*-.*/.test(name)){
+                console.error('Invalid element name: ', name);
+                return this;
+            }
+
             name = name.toLowerCase();
 
             // locate a parent type, default is HTMLElement
@@ -134,6 +138,11 @@
             var attributeMap = {};
             var prop;
             var properties = [];
+            function checkNum(v) {
+                var n = parseFloat(v);
+                return (!isNaN(n) && isFinite(n)) ? n : v;
+            }
+
 
             // parse through the user config properties obj
             for(prop in props) {
@@ -167,6 +176,7 @@
                                     (property.value) ?
                                         property.value :
                                         null;
+                                value = checkNum(value);
                             }
                             if (!el.hasAttribute(attr)){
                                 // make the attr true by setting it to something false
@@ -177,6 +187,7 @@
                             el.setterCalled[attr] = false;
                         } else {
                             value = (property.value) ? property.value : null;
+                            value = checkNum(value);
                         }
 
                         // construct the property accessor
@@ -253,7 +264,7 @@
                     if((attributeMap[attr]) && (!this.setterCalled[attr])){
                         var prop = attributeMap[attr];
                         if (prop.bool && (newVal === '')) newVal = true;
-                        this[prop.name] = (prop.bool) ? !!newVal : newVal;
+                        this[prop.name] = (prop.bool) ? !!newVal : checkNum(newVal);
                     }
                     this.setterCalled[attr] = false;
                     var output = attributeChanged ? attributeChanged.apply(this, arguments) : null;
