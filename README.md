@@ -4,7 +4,9 @@
 
 Why wait for AngularJS 2.0 to start writing Angular code for the **W3C Web Components** specifications? With just a tiny, 2kb, Custom Element polyfill plus this provider you can define, export, import, and use **Custom Elements** within your AngularJS 1.x.x app or component now.  Your AngularJS element directives can now be real, bonafide Custom Element directives.  The element properties are seemlesly bound to your directive $scope, so changes from outside Angular will be immediately reflected internally.  
 
-Skip to the [API Documentation](#api-documentation)
+Table of Contents
+[API Documentation](#api-documentation)
+[Injecting AngularCustomElement into your app](#injecting)
 
 #### What?
 
@@ -66,7 +68,7 @@ You just need to load `angular-custom-element.min.js` after Angular.js and befor
 * fork or clone this repo
 * just copy [angular-custom-element.min.js from here](https://raw.githubusercontent.com/dgs700/angular-custom-element/master/dist/angular-custom-element.min.js)
 
-#### Injecting into your app
+#### Injecting AngularCustomElement into your app
 
 1) Include your element directive and Custom Element provider as dependencies.
 ````javascript
@@ -84,7 +86,8 @@ app.config(['$customElementsProvider', function ($customElementsProvider) {
 
 
 3) Call the .register() function with a tag name (including namespace plus dash plus name)
-and the custom element config object (very similar to X-Tag config). Your directive names must match.
+and the custom element config object (very similar to X-Tag config). You will also need
+to define matching element directives, i.e. "tagName1"...
 ````javascript
 $customElementsProvider.register('tag-name1', { elemConfigObj1 })
     .register('tag-name2', { elemConfigObj2 })
@@ -273,72 +276,84 @@ properties object.
 ````
 
 
-#### Enabling the Custom Element in your matching element directive
+#### Enabling the Custom Element in the matching element directive
 
 (*this section still under construction)
 
-**Inject the service into the directive**
+**Inject the Custom Element service into the directive**
 ````javascript
-// Inject the Custom Element service
-angular.module('myComponents.smartButton', ['customElements'])
-    // An example of how an AngularJS 1.x "component" directive
-    // might be defined including the Angular independent
-    // custom element config that is exported to the DOM
-    .directive('smartButton', [
-        '$customElements', function($customElements){
+angular.module( 'myComponents.tagName1', ['customElements'] )
+    .directive( 'tagName1', [
+        '$customElements', function($customElements){ ...
 ````
 
-**$watchElement(scope, element)** in your directive controller:
-````javascript
-// This is the only line of code that is required.
-// this command takes care of binding all custom properties
-// to the $scope including triggering a $digest() when
-// any custom property is changed outside of Angular
-// After this line you can enjoy the full power of AngularJS
-// when interacting with your Custom Element
-$customElements.$watchElement($scope, $element);
+**Call $watchElement( scope, element )** in your directive link or controller function:
 
-// now you can add bindings in your controllers and templates
-// `$scope.el.propertyName` or `{{el.propertyName}}`
+This is the only line of code that is required.
+It takes care of binding all custom properties
+to the directive's $scope including triggering a $digest() when
+any custom property is changed from outside of Angular. Two or more 
+frameworks can share the same custom elements and no boilerplate!
+
+After this line you can enjoy the full power of AngularJS' framework tools
+when interacting with your Custom Element. You can have normal bindings
+in your templates and controllers: `$scope.el.propertyName` or `{{el.propertyName}}`.
+````javascript
+$customElements.$watchElement( $scope, $element );
 ````
+
 
 **Custom Element instance and prototype property change events:**
-````javascript
-// bind to a Custom Elem Prototype prop if needed
-// for something that affects all elem intances such as a
-// theme change.
-// NOTE: that these bindings must be specifically destroyed on
-// the $destroy event for the directive to avoid memory leaks 
-$document.on('member:changed', function(evt){
-    if(evt.detail.propName == 'a protopype prop we need to watch'){
-        // i.e. $scope.el.__proto__.memberNameOne
-        $log.log(evt.detail);
-        $scope.$emit(evt.detail);
-        // other stuff
-    }
-});
 
-// bind to an event on the element
-// since all prop changes generate a change event
-// other frameworks in the page can import and react
-// to the same component
-$element.on('prop:changed', function(evt){
+You can bind to a property change event on the element.
+Since all prop changes generate a change event
+other frameworks in the page can import and interact with
+the same component.
+````javascript
+$element.on( 'prop:changed', function(evt){
     $log.log(evt.detail);
     $scope.$emit(evt.detail);
-    // other stuff
+    // do stuff
 });
 ````
 
-**Miscellaneous:**
-````javascript
-// gets the original custom elem config obj mostly for any debug
-var info = $customElements.info($element);
+You can bind to a Custom Elemement prototype property change event if needed
+for something that affects all elem intances such as a theme change.
 
-// bind to a foreign Custom Element i.e. something from X-Tags or Polymer
-// binding is currently limited to attribute values unless the element
-// broadcasts property change events like those above
-$customElements.$importElement($scope, $element, ['array','of','property','names']);
+NOTE: that these bindings must be specifically destroyed on
+the $destroy event for the directive to avoid memory leaks 
+````javascript
+$document.on( 'member:changed', function(evt){
+    if(evt.detail.propName == 'a prototype prop we need to watch'){
+        // do stuff
+        $log.log(evt.detail);
+        $scope.$emit(evt.detail);
+    }
+});
 ````
+
+**Utility functions** 
+
+The **.info( $element )** function returns the original custom element config
+object for debugging purposes.
+````javascript
+var info = $customElements.info($element);
+````
+
+**Attempt to bind to a foreign Custom Element** i.e. something generated by X-Tags or Polymer.
+Binding is currently limited to attribute values unless the element
+broadcasts property change events like those above.
+
+The $scope and $element params are required. If you know that the custom element dispatches
+an event and its name (`evtName` below) upon property changes then complete binding can be achieved.
+Otherwise attribute names are the fallback.
+````javascript
+$customElements.$importElement($scope, $element, [array of attr names], evtName);
+````
+Note that if you control the element configuration source code for X-Tags, or even
+Polymer elements, then complete integration with matching AngularJS directives is possible with 
+about 10 extra lines of code. (examples coming soon).
+
 
 #### Directive definition guidelines for paring with Custom Elements:
 
