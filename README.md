@@ -12,7 +12,7 @@ Table of Contents
 
 [Defining Custom Elements](#defining-custom-elements)
 
-[Options for the Custom Element config object](#options-for-the-custom0-element-config-object)
+[Options for the Custom Element config object](#options-for-the-custom-element-config-object)
 
 [Enabling Custom Element binding in the directive](#enabling-custom-element-binding-in-the-directive)
 
@@ -83,7 +83,7 @@ You just need to load `angular-custom-element.min.js` after Angular.js and befor
 var app = angular.module('MyApp',['myComponents.elementDirectives', 'customElements']);
 ````
 
-#### Defining Custom Elements in an Angular module config block
+#### Defining Custom Elements
 
 2) Inject $customElementsProvider into a config block.
 ````javascript
