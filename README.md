@@ -8,7 +8,13 @@ Table of Contents
 
 [API Documentation](#api-documentation)
 
-[Injecting AngularCustomElement](#injecting)
+[Injecting AngularCustomElement into your app](#injecting-angularcustomelement-into-your-app)
+
+[Defining Custom Elements](#defining-custom-elements)
+
+[Options for the Custom Element config object](#options-for-the-custom0-element-config-object)
+
+[Enabling Custom Element binding in the directive](#enabling-custom-element-binding-in-the-directive)
 
 #### What?
 
@@ -96,7 +102,7 @@ $customElementsProvider.register('tag-name1', { elemConfigObj1 })
     .register('tag-name3', { elemConfigObj3 });    
 ````
 
-#### Options for the Custom Element configuration object
+#### Options for the Custom Element config object
 
 The format and options are similar to X-Tags, but there are some differences.
 
@@ -278,9 +284,7 @@ properties object.
 ````
 
 
-#### Enabling the Custom Element in the matching element directive
-
-(*this section still under construction)
+#### Enabling Custom Element binding in the directive
 
 **Inject the Custom Element service into the directive**
 ````javascript
