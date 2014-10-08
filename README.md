@@ -15,6 +15,14 @@ Table of Contents
     - [Directive Definition Guidelines](#directive-definition-guidelines)
     - [Template bindings](#template-bindings)
 - [FAQs and Opinions](#faqs-and-opinions)
+    - [What?](#what?)
+    - [](#)
+    - [](#)
+    - [](#)
+    - [](#)
+    - [](#)
+    - [](#)
+    - [](#)
 - [Get Involved](#get-involved)
 
 
@@ -59,7 +67,9 @@ $customElementsProvider.register('tag-name1', { elemConfigObj1 })
 
 #### Options for the Custom Element config object
 
-The format and options are similar to X-Tags, but there are some differences.
+The format and options are similar to X-Tags, but there are some differences. Also keep in mind
+that the context of any code placed in the element config object executes *outside of* AngularJS, so 
+it should be VanillaJS and framework agnostic.
 
 **parent: element prototype** (optional) is the element prototype we wish to inherit from. 
 It defaults to HTMLElement. You may inherit from standard HTML elements or other custom elements.
