@@ -5,6 +5,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-conventional-changelog');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     //sgrunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.initConfig({
@@ -52,6 +53,12 @@ module.exports = function (grunt) {
                 dest: '<%= dist %>/<%= filename %>.min.js'
             }
         },
+        copy: {
+            dist: {
+                src: ['<%= dist %>/<%= filename %>.min.js'],
+                dest: '<%= dist %>/<%= filename %>-nopolyfill.min.js'
+            }
+        },
         concat: {
             distMin: {
                 options: {},
@@ -62,5 +69,5 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('default', ['uglify:dist', 'concat:distMin']);
+    grunt.registerTask('default', ['uglify:dist', 'copy:dist', 'concat:distMin']);
 }
