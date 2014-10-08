@@ -2,42 +2,48 @@
 
 **Upgrade your AngularJS 1.x.x component directives to Web Components (W3C) Custom Elements!**
 
-Why wait for AngularJS 2.0 to start writing Angular code for the **W3C Web Components** specifications? With just a tiny, 2kb, Custom Element polyfill plus this provider you can define, export, import, and use **Custom Elements** within your AngularJS 1.x.x app or component now.  Your AngularJS element directives can now be real, bonafide Custom Element directives.  The element properties are seemlesly bound to your directive $scope, so changes from outside Angular will be immediately reflected internally.  
+Why wait for AngularJS 2.0 to start writing Angular code for the **W3C Web Components** specifications? With just a tiny, 2kb, Custom Element polyfill plus this provider you can define, export, import, and use **Custom Elements** within your AngularJS 1.x.x app or component now.  Your AngularJS element directives can now be real, bonafide Custom Element directives.  The element properties are seemlesly bound to your directive's $scope, so changes from outside Angular will be immediately reflected in your Angular bindings. 
 
-Table of Contents
+**How is this different from Polymer or X-Tags?**
 
+Polymer and X-Tags are both great projects and have been invaluable for introducing the web development community to the upcoming [Web Components](http://www.w3.org/wiki/WebComponents/) standards.  At the core, the Custom Elements API is exactly the same. But unlike the Polymer Framework, this module only provides Custom Element integration because Custom Elements are the only standard that can be safely polyfilled across current browsers (including IE 9+) in a manner acceptable for production level code in terms of performance and risk. Polymer also uses Shadow DOM, `<template>` tags, and HTML Imports, all of which really need to be part of browser native code to function correctly, and all versions of IE through 11 are especially problematic. X-Tags, on the other hand, also focuses soley on creation of Custom Elements and is safe for production code across all browsers. But custom elements by themselves, don't really offer much.  You still need something that provides application framework features and tools such as XHR, data-binding, module loading, etc. X-Tags is standalone. It can be integrated with frameworks, but requires a lot of boilerplate code that web app developers are not familiar with.
+
+AngularCustomElement hides all the boilerplate for Custom Element generation and AngularJS integration. AngularJS has all the web app framework conveniences that X-Tags lacks including data-binding, and the 2kb Custom Element polyfill is safe for *production* use across browsers. There is no reason why any AngularJS UI component directive shouldn't be Custom Element based at this point. Getting comfortable with the Custom Element API will offer much greater shelf life for components created today.  When AngularJS 2.0 arrives this will be the default.
+
+
+## Table of Contents
+
+- [Getting and Installing](#getting-and-installing)
 - [API Documentation](#api-documentation)
-    - [Getting and Installing](#getting-and-installing)
     - [Injecting AngularCustomElement into your app](#injecting-angularcustomelement-into-your-app)
     - [Defining Custom Elements](#defining-custom-elements)
     - [Options for the Custom Element config object](#options-for-the-custom-element-config-object)
     - [Enabling Custom Element binding in the directive](#enabling-custom-element-binding-in-the-directive)
-    - [Directive Definition Guidelines](#directive-definition-guidelines)
     - [Template bindings](#template-bindings)
-- [FAQs and Opinions](#faqs-and-opinions)
-    - [What?](#what?)
-    - [](#)
-    - [](#)
-    - [](#)
-    - [](#)
-    - [](#)
-    - [](#)
-    - [](#)
+    - [Directive Definition Guidelines](#directive-definition-guidelines)
 - [Get Involved](#get-involved)
+- [FAQs and Opinions](#faqs-and-opinions)
+    - [What?](#what)
+    - [Where?](#where)
+    - [Why?](#why)
+    - [When?](#when)
+    - [How?](#how)
+    - [Who?](#who)
 
 
-
-## API Documentation
-
-* Also see the code in the usage examples directory for inline docs.  It's written so the documentation is self-explanitory and you can cut and paste the code into your app to get started.
-
-#### Getting and Installing
+## Getting and Installing
 
 You just need to load `angular-custom-element.min.js` after Angular.js and before your app or component modules. The file is available via:
 
 * Bower: `$> bower install angular-custom-element`
 * fork or clone this repo
 * just copy [angular-custom-element.min.js from here](https://raw.githubusercontent.com/dgs700/angular-custom-element/master/dist/angular-custom-element.min.js)
+* NPM: coming soon
+
+## API Documentation
+
+* Also see the code in the usage examples directory for inline docs.  It's written so the documentation is self-explanitory and you can cut and paste the code into your app to get started.
+
 
 #### Injecting AngularCustomElement into your app
 
@@ -376,6 +382,14 @@ in your templates, only the the props you define can.
 </a>
 ````
 
+
+## Get Involved
+
+If you like the ideas behind this module, PLEASE help by forking, using, identifying bugs and
+functionality that is either missing or could be improved, testing, contributing code for tests,
+bug fixes, and feature improvements. 
+
+
 ## FAQs and Opinions
 
 #### What?
@@ -424,12 +438,4 @@ The other task is triggering a $digest cycle for element properties that are mut
 #### Who?
 
 Myself and anyone who wants to help with testing across browsers and suggestion and/or code to help improve.  There are so many DOM peculiarities and weird use-case situations that it is impossible for one person to conceive of comprehensive test coverage or anticipate every edge-case bug. 
-
-
-## Get Involved
-
-If you like the ideas behind this module, PLEASE help by forking, using, identifying bugs and
-functionality that is either missing or could be improved, testing, contributing code for tests,
-bug fixes, and feature improvements. 
-
 
