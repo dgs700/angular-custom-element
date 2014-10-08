@@ -23,13 +23,13 @@ AngularCustomElement hides all the boilerplate for Custom Element generation and
     - [Directive Definition Guidelines](#directive-definition-guidelines)
 - [Contributing](#contributing)
 - [FAQs and Opinions](#faqs-and-opinions)
-    - [What is AngularCustomElement?](#what)
-    - [Where can it be used?](#where)
-    - [Why would I want to use it?](#why)
-    - [When can I use it?](#when)
-    - [How does it work?](#how)
-    - [Who is responsible for this?](#who)
-    - [How is this different from Polymer or X-Tags?](#h)
+    - [What is AngularCustomElement?](##what-is-angularcustomelement)
+    - [Where can it be used?](#where-can-it-be-used)
+    - [When can I use it?](#when-can-i-use-it)
+    - [Why would I want to use it?](#why-would-i-want-to-use-it)
+    - [How does it work?](#how-does-it-work)
+    - [Who is responsible for this?](#who-is-responsible-for-this)
+    - [How is this different from Polymer or X-Tags?](#how-is-this-different-from-polymer-or-x-tags-1)
 - [Release Notes](#release-notes)
 - [License](#license)
 
@@ -447,3 +447,17 @@ Myself and anyone who wants to help with testing across browsers and suggestion 
 Polymer and X-Tags are both great projects and have been invaluable for introducing the web development community to the upcoming [Web Components](http://www.w3.org/wiki/WebComponents/) standards.  At the core, the Custom Elements API is exactly the same. But unlike the Polymer Framework, this module only provides Custom Element integration because Custom Elements are the only standard that can be safely polyfilled across current browsers (including IE 9+) in a manner acceptable for production level code in terms of performance and risk. Polymer also uses Shadow DOM, `<template>` tags, and HTML Imports, all of which really need to be part of browser native code to function correctly, and all versions of IE through 11 are especially problematic. X-Tags, on the other hand, also focuses soley on creation of Custom Elements and is safe for production code across all browsers. But custom elements by themselves, don't really offer much.  You still need something that provides application framework features and tools such as XHR, data-binding, module loading, etc. X-Tags is standalone. It can be integrated with frameworks, but requires a lot of boilerplate code that web app developers are not familiar with.
 
 AngularCustomElement hides all the boilerplate for Custom Element generation and AngularJS integration. AngularJS has all the web app framework conveniences that X-Tags lacks including data-binding, and the 2kb Custom Element polyfill is safe for *production* use across browsers. There is no reason why any AngularJS UI component directive shouldn't be Custom Element based at this point. Getting comfortable with the Custom Element API will offer much greater shelf life for components created today.  When AngularJS 2.0 arrives this will be the default.
+
+## License and Copyright
+
+**Copyright (c) 2014 David Shapiro**
+
+**MIT License**
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
