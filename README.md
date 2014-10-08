@@ -1,4 +1,4 @@
-# AngularCustomElement 
+# Angular Custom Element 
 
 **Upgrade your AngularJS 1.x.x component directives to Web Components (W3C) Custom Elements!**
 
