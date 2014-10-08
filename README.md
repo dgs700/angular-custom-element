@@ -1,10 +1,10 @@
-## AngularJS Web Components - Custom Element 
+# AngularCustomElement 
 
 **Upgrade your AngularJS 1.x.x component directives to Web Components (W3C) Custom Elements!**
 
 Why wait for AngularJS 2.0 to start writing Angular code for the **W3C Web Components** specifications? With just a tiny, 2kb, Custom Element polyfill plus this provider you can define, export, import, and use **Custom Elements** within your AngularJS 1.x.x app or component now.  Your AngularJS element directives can now be real, bonafide Custom Element directives.  The element properties are seemlesly bound to your directive's $scope, so changes from outside Angular will be immediately reflected in your Angular bindings. 
 
-**How is this different from Polymer or X-Tags?**
+## How is this different from Polymer or X-Tags?
 
 Polymer and X-Tags are both great projects and have been invaluable for introducing the web development community to the upcoming [Web Components](http://www.w3.org/wiki/WebComponents/) standards.  At the core, the Custom Elements API is exactly the same. But unlike the Polymer Framework, this module only provides Custom Element integration because Custom Elements are the only standard that can be safely polyfilled across current browsers (including IE 9+) in a manner acceptable for production level code in terms of performance and risk. Polymer also uses Shadow DOM, `<template>` tags, and HTML Imports, all of which really need to be part of browser native code to function correctly, and all versions of IE through 11 are especially problematic. X-Tags, on the other hand, also focuses soley on creation of Custom Elements and is safe for production code across all browsers. But custom elements by themselves, don't really offer much.  You still need something that provides application framework features and tools such as XHR, data-binding, module loading, etc. X-Tags is standalone. It can be integrated with frameworks, but requires a lot of boilerplate code that web app developers are not familiar with.
 
@@ -21,14 +21,17 @@ AngularCustomElement hides all the boilerplate for Custom Element generation and
     - [Enabling Custom Element binding in the directive](#enabling-custom-element-binding-in-the-directive)
     - [Template bindings](#template-bindings)
     - [Directive Definition Guidelines](#directive-definition-guidelines)
-- [Get Involved](#get-involved)
+- [Contributing](#contributing)
 - [FAQs and Opinions](#faqs-and-opinions)
-    - [What?](#what)
-    - [Where?](#where)
-    - [Why?](#why)
-    - [When?](#when)
-    - [How?](#how)
-    - [Who?](#who)
+    - [What is AngularCustomElement?](#what)
+    - [Where can it be used?](#where)
+    - [Why would I want to use it?](#why)
+    - [When can I use it?](#when)
+    - [How does it work?](#how)
+    - [Who is responsible for this?](#who)
+    - [How is this different from Polymer or X-Tags?](#h)
+- [Release Notes](#release-notes)
+- [License](#license)
 
 
 ## Getting and Installing
@@ -392,7 +395,7 @@ bug fixes, and feature improvements.
 
 ## FAQs and Opinions
 
-#### What?
+#### What is AngularCustomElement?
 
 **AngularJS Custom Element** is an **Angular provider** that allows you to define and register W3C spec custom elements in an application config block.  It is also an **Angular service** meant to be injected into your matching element directive that auto binds the element's custom properties, and attributes to directive scope.  You can access these properties via `$scope.el.propertyName`, or just `el.propertyName` in your template bindings.
 
@@ -402,15 +405,11 @@ This module is focused exclusively on Custom Elements because their APIs are the
 
 Instead of 2-way data-binding, you can now have **3-way data-binding**.
 
-#### Where?
+#### Where can it be used?
 
 **All modern browsers** including IE 9+, and any existing or yet to be coded Angular element directives.
 
-#### When?
-
-From now until AngularJS 2.0 is in widescale production. AngularJS 2.0 Component Directives will replace this functionality.  It seems this lib was already deprecated before it was released :-0
-
-#### Why?
+#### Why would I want to use it?
 
 Because Custom Element APIs, which are essentially HTML element attributes, properties, methods and events, are becoming the common interface through which web components, applications, toolkits and even different frameworks interact.  Reusable UI components will no longer be restricted to the scope of a particular framework, and components will inherit logic and data directly from other components or elements.  By moving component specific data and logic out of the controller and onto the element, code shelf-life will become much longer.
 
@@ -429,13 +428,22 @@ Unlike the other Web Component polyfills such as Shadow DOM, the Custom Element 
 * attempt to reflect, where possible, the decisions about how component directives will function in the AngularJS 2.0 design docs
 * be a **community** driven project
 
-#### How?
+#### When can I use it?
+
+From now until AngularJS 2.0 is in widescale production. AngularJS 2.0 Component Directives will replace this functionality.  It seems this lib was already deprecated before it was released :-0
+
+#### How does it work?
 
 As long as a browser has DOM mutation observer capability, the Custom Element API can be easily shimmed. The one exception is the new css pseudo **:unresolved**, but FOUC can be easily prevented in other ways. Chrome already supports the API natively, and Mozilla will shortly.
 
 The other task is triggering a $digest cycle for element properties that are mutated from outside Angular. Neither Object.observe or DOM Mutation Observers work with element properties due to certain, potential performance reasons.  However, because we can define element properties using ES5 Object property setters and getters, we can invoke callback functions that include an injected $scope.$digest() and trigger custom change events whenever the property setter is called during a mutation.  Any data-binding framework, not just Angular, can use these hooks and events to bind to the Custom Element.
 
-#### Who?
+#### Who is responsible for this?
 
 Myself and anyone who wants to help with testing across browsers and suggestion and/or code to help improve.  There are so many DOM peculiarities and weird use-case situations that it is impossible for one person to conceive of comprehensive test coverage or anticipate every edge-case bug. 
 
+#### How is this different from Polymer or X-Tags?
+
+Polymer and X-Tags are both great projects and have been invaluable for introducing the web development community to the upcoming [Web Components](http://www.w3.org/wiki/WebComponents/) standards.  At the core, the Custom Elements API is exactly the same. But unlike the Polymer Framework, this module only provides Custom Element integration because Custom Elements are the only standard that can be safely polyfilled across current browsers (including IE 9+) in a manner acceptable for production level code in terms of performance and risk. Polymer also uses Shadow DOM, `<template>` tags, and HTML Imports, all of which really need to be part of browser native code to function correctly, and all versions of IE through 11 are especially problematic. X-Tags, on the other hand, also focuses soley on creation of Custom Elements and is safe for production code across all browsers. But custom elements by themselves, don't really offer much.  You still need something that provides application framework features and tools such as XHR, data-binding, module loading, etc. X-Tags is standalone. It can be integrated with frameworks, but requires a lot of boilerplate code that web app developers are not familiar with.
+
+AngularCustomElement hides all the boilerplate for Custom Element generation and AngularJS integration. AngularJS has all the web app framework conveniences that X-Tags lacks including data-binding, and the 2kb Custom Element polyfill is safe for *production* use across browsers. There is no reason why any AngularJS UI component directive shouldn't be Custom Element based at this point. Getting comfortable with the Custom Element API will offer much greater shelf life for components created today.  When AngularJS 2.0 arrives this will be the default.
