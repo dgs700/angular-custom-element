@@ -1,6 +1,6 @@
 {
     "name": "AngularCustomElement",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "AngularJS Web Component Development companian examples and code",
     "devDependencies": {
         "grunt": "~0.4.4",

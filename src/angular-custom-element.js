@@ -1,13 +1,13 @@
 /* Requires a Custom Element polyfill for all browsers other than Chrome
  Recommended:  https://github.com/WebReflection/document-register-element */
-// this will be obsolete with the release of AngularJS 2.0
 (function(global){
     'use strict';
 
     function customElements(){
         // used to keep track of registered elems
         var registeredElements = {};
-        this.registeredElements = registeredElements;
+        // need a global registered cutom elem map for CEs inheriting from other CEs
+        window.registeredElements = this.registeredElements = registeredElements;
 
         this.register = register;
         function register(name, config){
@@ -31,8 +31,10 @@
             var isa = config['extends'] || null;
             var props = config.properties || {}; // instance
             var members = config.members || {}; // proto
-            var tag = {};
-            var proto = {};
+            var tag = {
+                prototype: {}
+            };
+            //var proto = {};
             var noop = function(){};
 
             // user defined proto members
@@ -57,7 +59,7 @@
                     // parse through the proto.members user config obj
                     // function on the custom proto
                     if (typeof members[member] === 'function') {
-                        proto[member] = {
+                        tag.prototype[member] = {
                             enumerable: true,
                             value: members[member]
                         };
@@ -92,7 +94,7 @@
                                 value = memberBP(val, oldVal, member)
                             };
                         }
-                        proto[member] = {
+                        tag.prototype[member] = {
                             get: getter,
                             set: setter,
                             enumerable: true
@@ -101,10 +103,11 @@
                 })(member, members);
             }
 
+
             // add binding fn to elem proto
             // this is an Angular specific hook for to enable detection of custom prop
             // changes, but could be adapted for other data-binding frameworks
-            proto.registerCallback = {
+            tag.prototype.registerCallback = {
                 value: function(el, fn){
                     el.onPropChange = fn; // from custom setter
                 },
@@ -112,9 +115,10 @@
             };
             // this is a general purpose notifier for other frameworks consuming
             // a CE defined here
-            proto.propChangeNotify = {
+            tag.prototype.propChangeNotify = {
                 value: function(el, propName, newVal, oldVal, attrName, type){
                     // prop:added? prop:deleted?
+                    // todo - combine with the other fn
                     el.dispatchEvent(new CustomEvent(type, {
                         detail: {
                             propName: propName,
@@ -127,7 +131,7 @@
                 enumerable: true
             };
             // the original user config for the CE
-            proto.definition = {value: config};
+            tag.prototype.definition = {value: config};
 
             var callbacks = config.callbacks || {};
             var created = callbacks.created || noop;
@@ -137,14 +141,33 @@
             //var events = ??? TBD
             var attributeMap = {};
             var prop;
-            var properties = [];
             function checkNum(v) {
                 var n = parseFloat(v);
                 return (!isNaN(n) && isFinite(n)) ? n : v;
             }
 
 
+            // new code --->
+            function setterBoiler(val, el, oldVal, attr, bool) {
+                if(!el) return val;
+                el.setterCalled[attr] = true;
+                // this stuff should fail silently
+                try {
+                    el.onPropChange(val);
+                    if(attr && bool){
+                        (val) ? el.setAttribute(attr, '') : el.removeAttribute(attr);
+                    } else if(attr) {
+                        el.setAttribute(attr, val);
+                    }
+                } catch (e) {}
+                oldVal = (bool) ? !!el[prop] : el[prop];
+                // code outside the matching directive would use this event
+                el.propChangeNotify(el, prop, val, oldVal, attr, 'prop:changed');
+                return val;
+            }
+
             // parse through the user config properties obj
+            var properties = [];
             for(prop in props) {
                 (function parseProperty(prop, props) {
                     // the functions are invoked during the createdCallback so they are
@@ -158,13 +181,14 @@
                         readOnly = property.readOnly || false;
 
                         // handle prop<-->attr binding
-                        if (property.attribute && !readOnly) {
-                            bool = (property.attribute.boolean) ? true : false;
+                        bool = (property.attribute.boolean) ? true : false;
+                        if (property.attribute && !readOnly && !!el) {
                             attr = (property.attribute.name) ? property.attribute.name : prop.toLowerCase();
                             attributeMap[attr] = {
                                 name: prop,
                                 bool: bool
                             };
+
                             if(bool){
                                 value = (el.hasAttribute(attr)) ?
                                     true :
@@ -186,8 +210,12 @@
                             }
                             el.setterCalled[attr] = false;
                         } else {
-                            value = (property.value) ? property.value : null;
-                            value = checkNum(value);
+                            if(bool && !el) {
+                                value = (property.value) ? true : false;
+                            }else{
+                                value = (property.value) ? property.value : null;
+                                value = checkNum(value);
+                            }
                         }
 
                         // construct the property accessor
@@ -196,25 +224,9 @@
                             getter = property.get;
                         } else {
                             getter = function () {
+                                //console.warn(value)
                                 return value;
                             }
-                        }
-                        // common setter crap goes here
-                        function setterBoiler(val) {
-                            el.setterCalled[attr] = true;
-                            // this stuff should fail silently
-                            try {
-                                el.onPropChange(val);
-                                if(attr && bool){
-                                    (val) ? el.setAttribute(attr, '') : el.removeAttribute(attr);
-                                } else if(attr) {
-                                    el.setAttribute(attr, val);
-                                }
-                            } catch (e) {}
-                            oldVal = (bool) ? !!el[prop] : el[prop];
-                            // code outside the matching directive would use this event
-                            el.propChangeNotify(el, prop, val, oldVal, attr, 'prop:changed');
-                            return val;
                         }
 
                         // construct the property mutator
@@ -226,22 +238,37 @@
                             setter = function (val) {
                                 // invoke any setter logic from user
                                 val = property.set.call(el, val);
-                                value = setterBoiler(val);
+                                val = setterBoiler(val, el, oldVal, attr, bool);
+                                // console.warn(val)
+                                value = val;
                             };
                         } else {
                             setter = function (val) {
-                                value = setterBoiler(val);
+                                value = setterBoiler(val, el, oldVal, attr, bool);
                             };
                         }
-                        Object.defineProperty(el, prop, {
-                            get: getter,
-                            set: setter,
-                            enumerable: true
-                        });
+
+                        if(!!el){
+                            Object.defineProperty(el, prop, {
+                                get: getter,
+                                set: setter,
+                                enumerable: true,
+                                configurable: true
+                            });
+                        }else{
+                            tag.prototype[prop] = {
+                                get: getter,
+                                set: setter,
+                                enumerable: true
+                            };
+                        }
                     });
                 })(prop, props);
+                properties.forEach(function(fn){
+                    fn.call(this, null);
+                });
             }
-            proto.createdCallback = {
+            tag.prototype.createdCallback = {
                 enumerable: true,
                 value: function(){
                     this.setterCalled = {};
@@ -255,7 +282,7 @@
                     return output;
                 }
             };
-            proto.attributeChangedCallback = {
+            tag.prototype.attributeChangedCallback = {
                 enumerable: true,
                 value: function(attr, oldVal, newVal){
                     // if attr maps to a prop, update the prop
@@ -271,14 +298,14 @@
                     return output;
                 }
             };
-            proto.attachedCallback = {
+            tag.prototype.attachedCallback = {
                 enumerable: true,
                 value: function(){
                     var output = attached ? attached.apply(this, arguments) : null;
                     return output;
                 }
             };
-            proto.detachedCallback = {
+            tag.prototype.detachedCallback = {
                 enumerable: true,
                 value: function(){
                     var output = detached ? detached.apply(this, arguments) : null;
@@ -287,7 +314,7 @@
             };
 
             // and we're off to the races
-            tag.prototype = proto;
+            //tag.prototype = proto;
             var definition = {
                 'prototype': Object.create(prototype, tag.prototype)
             };
