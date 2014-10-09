@@ -85,6 +85,13 @@ It defaults to HTMLElement. You may inherit from standard HTML elements or other
 ````javascript
 parent: HTMLButtonElement,
 ````
+All Custom Elements created with this module can be retrieved from a global registry map. To create
+a Custom Element that inherits from another just reference the parent like this:
+````javascript
+register('smarter-button', {
+    parent: window.registeredElements['smart-button']
+    ...
+````
 
 **extends: tag name** (optional) will include all of the parent's properties, but
 the `<tagname is="custom-element">` tag syntax must appear in the DOM.
