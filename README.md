@@ -4,12 +4,6 @@
 
 Why wait for AngularJS 2.0 to start writing Angular code for the **W3C Web Components** specifications? With just a tiny, 2kb, Custom Element polyfill plus this provider you can define, export, import, and use **Custom Elements** within your AngularJS 1.x.x app or component now.  Your AngularJS element directives can now be real, bonafide Custom Element directives.  The element properties are seemlesly bound to your directive's $scope, so changes from outside Angular will be immediately reflected in your Angular bindings. 
 
-## How is this different from Polymer or X-Tags?
-
-Polymer and X-Tags are both great projects and have been invaluable for introducing the web development community to the upcoming [Web Components](http://www.w3.org/wiki/WebComponents/) standards.  At the core, the Custom Elements API is exactly the same. But unlike the Polymer Framework, this module only provides Custom Element integration because Custom Elements are the only standard that can be safely polyfilled across current browsers (including IE 9+) in a manner acceptable for production level code in terms of performance and risk. Polymer also uses Shadow DOM, `<template>` tags, and HTML Imports, all of which really need to be part of browser native code to function correctly, and all versions of IE through 11 are especially problematic. X-Tags, on the other hand, also focuses soley on creation of Custom Elements and is safe for production code across all browsers. But custom elements by themselves, don't really offer much.  You still need something that provides application framework features and tools such as XHR, data-binding, module loading, etc. X-Tags is standalone. It can be integrated with frameworks, but requires a lot of boilerplate code that web app developers are not familiar with.
-
-AngularCustomElement hides all the boilerplate for Custom Element generation and AngularJS integration. AngularJS has all the web app framework conveniences that X-Tags lacks including data-binding, and the 2kb Custom Element polyfill is safe for *production* use across browsers. There is no reason why any AngularJS UI component directive shouldn't be Custom Element based at this point. Getting comfortable with the Custom Element API will offer much greater shelf life for components created today.  When AngularJS 2.0 arrives this will be the default.
-
 
 ## Table of Contents
 
