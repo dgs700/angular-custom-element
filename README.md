@@ -8,6 +8,7 @@ Why wait for AngularJS 2.0 to start writing Angular code for the **W3C Web Compo
 ## Table of Contents
 
 - [Getting and Installing](#getting-and-installing)
+- [Prerequisites](#prerequisites)
 - [API Documentation](#api-documentation)
     - [Injecting AngularCustomElement into your app](#injecting-angularcustomelement-into-your-app)
     - [Defining Custom Elements](#defining-custom-elements)
@@ -24,6 +25,7 @@ Why wait for AngularJS 2.0 to start writing Angular code for the **W3C Web Compo
     - [How does it work?](#how-does-it-work)
     - [Who is responsible for this?](#who-is-responsible-for-this)
     - [How is this different from Polymer or X-Tags?](#how-is-this-different-from-polymer-or-x-tags-1)
+    - What about :unresolved?
 - [Release Notes](#release-notes)
 - [License](#license)
 
@@ -36,6 +38,13 @@ You just need to load `angular-custom-element.min.js` after Angular.js and befor
 * fork or clone this repo
 * just copy [angular-custom-element.min.js from here](https://raw.githubusercontent.com/dgs700/angular-custom-element/master/dist/angular-custom-element.min.js)
 * NPM: coming soon
+
+## Prerequisites
+
+To get the most value out of AngularCustomElement its helpful to have good knowledge of the Custom Element specification and the DOM in general. You should also have at least an intermediate level of experience with AngularJS directives and familiarity with the architectures and patterns used in UI component development.  The defacto Custom Elements tutorial can be found here: 
+- [http://www.html5rocks.com/en/tutorials/webcomponents/customelements/](http://www.html5rocks.com/en/tutorials/webcomponents/customelements/)
+Comprehensive information on creating UI component directives can be found here:
+- [Web Component Architecture & Development with AngularJS](https://leanpub.com/web-component-development-with-angularjs/read)
 
 ## API Documentation
 
