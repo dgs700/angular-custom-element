@@ -42,7 +42,9 @@ You just need to load `angular-custom-element.min.js` after Angular.js and befor
 ## Prerequisites
 
 To get the most value out of AngularCustomElement its helpful to have good knowledge of the Custom Element specification and the DOM in general. You should also have at least an intermediate level of experience with AngularJS directives and familiarity with the architectures and patterns used in UI component development.  The defacto Custom Elements tutorial can be found here: 
-- [http://www.html5rocks.com/en/tutorials/webcomponents/customelements/](http://www.html5rocks.com/en/tutorials/webcomponents/customelements/)
+- <a href="http://www.html5rocks.com/en/tutorials/webcomponents/customelements/" target="_blank">Custom Elements
+defining new elements in HTML</a>
+
 Comprehensive information on creating UI component directives can be found here:
 - [Web Component Architecture & Development with AngularJS](https://leanpub.com/web-component-development-with-angularjs/read)
 
