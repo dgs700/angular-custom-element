@@ -44,9 +44,9 @@ module.exports = function (grunt) {
         },
         uglify: {
             options: {
-                banner: '<%= meta.banner %>',
+                banner: '<%= meta.banner %>'
                 //sourceMap: true,
-                mangle: false
+                //mangle: false
             },
             dist: {
                 src: ['src/angular-custom-element.js'],

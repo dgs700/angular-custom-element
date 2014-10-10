@@ -387,11 +387,13 @@ in your templates, only the the props you define can.
 ````
 
 
-## Get Involved
+## Contributing
 
 If you like the ideas behind this module, PLEASE help by forking, using, identifying bugs and
 functionality that is either missing or could be improved, testing, contributing code for tests,
-bug fixes, and feature improvements. 
+bug fixes, and feature improvements.
+
+Please use the [issue tracker for this repo](https://github.com/dgs700/angular-custom-element/issues) for bugs and suggestions.
 
 
 ## FAQs and Opinions
