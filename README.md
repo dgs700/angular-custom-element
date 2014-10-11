@@ -25,8 +25,8 @@ Why wait for AngularJS 2.0 to start writing Angular code for the **W3C Web Compo
     - [How does it work?](#how-does-it-work)
     - [Who is responsible for this?](#who-is-responsible-for-this)
     - [How is this different from Polymer or X-Tags?](#how-is-this-different-from-polymer-or-x-tags-1)
-    - [What about :unresolved?](#what)
-    - [Do I have to use the included polyfill?](#do)
+    - [What about :unresolved?](#what-about-unresolved)
+    - [Do I have to use the included polyfill?](#do-i-have-to-use-the-included-polyfill)
 - [Release Notes](#release-notes)
 - [License](#license)
 
