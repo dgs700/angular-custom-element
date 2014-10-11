@@ -12,16 +12,14 @@
         this.register = register;
         function register(name, config){
             // basic checks
-            // prevent dups
-            if(registeredElements[name]) return this;
             // CEs must have a dash in the name
             if((typeof name !== 'string') || !/.*-.*/.test(name)){
                 console.error('Invalid element name: ', name);
                 return this;
             }
-
             name = name.toLowerCase();
-
+            // prevent dups
+            if(registeredElements[name]) return this;
             // locate a parent type, default is HTMLElement
             var prototype = (config.parent) ?
                 config.parent.prototype :
@@ -36,7 +34,6 @@
             };
             //var proto = {};
             var noop = function(){};
-
             // user defined proto members
             // analogous to Class properties
             for (var member in members) {
@@ -55,7 +52,6 @@
                         }));
                         return v;;
                     }
-
                     // parse through the proto.members user config obj
                     // function on the custom proto
                     if (typeof members[member] === 'function') {
@@ -102,8 +98,6 @@
                     }
                 })(member, members);
             }
-
-
             // add binding fn to elem proto
             // this is an Angular specific hook for to enable detection of custom prop
             // changes, but could be adapted for other data-binding frameworks
@@ -146,8 +140,6 @@
                 return (!isNaN(n) && isFinite(n)) ? n : v;
             }
 
-
-            // new code --->
             function setterBoiler(val, el, oldVal, attr, bool) {
                 if(!el) return val;
                 el.setterCalled[attr] = true;
@@ -219,15 +211,9 @@
                         }
 
                         // construct the property accessor
-                        if (typeof property.get === 'function') {
-                            // invoke any user supplied getter logic
-                            getter = property.get;
-                        } else {
-                            getter = function () {
-                                //console.warn(value)
-                                return value;
-                            }
-                        }
+                        getter = (typeof property.get === 'function') ?
+                            property.get :
+                            function(){return value;};
 
                         // construct the property mutator
                         // if set fn provided by user, it overrides as far as how the value
@@ -239,7 +225,6 @@
                                 // invoke any setter logic from user
                                 val = property.set.call(el, val);
                                 val = setterBoiler(val, el, oldVal, attr, bool);
-                                // console.warn(val)
                                 value = val;
                             };
                         } else {
@@ -247,7 +232,6 @@
                                 value = setterBoiler(val, el, oldVal, attr, bool);
                             };
                         }
-
                         if(!!el){
                             Object.defineProperty(el, prop, {
                                 get: getter,
@@ -301,6 +285,7 @@
             tag.prototype.attachedCallback = {
                 enumerable: true,
                 value: function(){
+                    this.classList.remove("unresolved"); // IE 10+
                     var output = attached ? attached.apply(this, arguments) : null;
                     return output;
                 }
@@ -313,8 +298,6 @@
                 }
             };
 
-            // and we're off to the races
-            //tag.prototype = proto;
             var definition = {
                 'prototype': Object.create(prototype, tag.prototype)
             };
@@ -324,9 +307,27 @@
             // template - better declarativeness in the markup
             if(isa) definition['extends'] = isa;
 
-            // add the newly registered element to the tracking hash
+            // add the newly registered element to the tracking map
             registeredElements[name] = document.registerElement( name, definition);
             return this;
+        }
+        // register an array of opbj
+        var provider = this;
+        this.registerCollection = registerCollection;
+        function registerCollection(definitions){
+            if(!Array.isArray(definitions)){
+                console.error('parameter to registerCollection must be an array');
+                return false;
+            }
+            definitions.forEach(function(el){
+                var name = el.name, config = el.definition;
+                if(typeof name !== 'string' || config !== Object(config)) {
+                    console.warn('bad element definition format');
+                    return false;
+                }
+                provider.register(name, config);
+            });
+            return true;
         }
 
         this.$get = $get;
@@ -339,13 +340,16 @@
                 },
                 // handles the boilerplate of triggering
                 // $digest() on external elem prop changes
-                $watchElement: function(scope, el){
+                $watchElement: function(scope, el, noBindings){
+                    noBindings = noBindings || false;
                     scope.el = el[0];
-                    scope.el.registerCallback(scope.el, function(val){
-                        setTimeout(function(){
-                            scope.$digest();
-                        }, 0);
-                    });
+                    if(!noBindings){
+                        scope.el.registerCallback(scope.el, function(val){
+                            setTimeout(function(){
+                                scope.$digest();
+                            }, 0);
+                        });
+                    }
                 },
                 // provide limited ability to watch/bind attr/prop changes
                 // in foreign web components, values limited to primatives

@@ -25,7 +25,8 @@ Why wait for AngularJS 2.0 to start writing Angular code for the **W3C Web Compo
     - [How does it work?](#how-does-it-work)
     - [Who is responsible for this?](#who-is-responsible-for-this)
     - [How is this different from Polymer or X-Tags?](#how-is-this-different-from-polymer-or-x-tags-1)
-    - What about :unresolved?
+    - [What about :unresolved?](#what)
+    - [Do I have to use the included polyfill?](#do)
 - [Release Notes](#release-notes)
 - [License](#license)
 
@@ -69,7 +70,6 @@ app.config(['$customElementsProvider', function ($customElementsProvider) {
 
 **The `.register()` method:**
 
-
 3) Call the .register() function with a tag name (including namespace plus dash plus name)
 and the custom element config object (very similar to X-Tag config). You will also need
 to define matching element directives, i.e. "tagName1"...
@@ -77,6 +77,34 @@ to define matching element directives, i.e. "tagName1"...
 $customElementsProvider.register('tag-name1', { elemConfigObj1 })
     .register('tag-name2', { elemConfigObj2 })
     .register('tag-name3', { elemConfigObj3 });    
+````
+
+**The `.registerCollection()` method:**
+
+If you have several custom elements to register, and/or you prefer to maintain the element definition code
+in a location seperate from your App.config() block, then you can use `.registerCollection([definitions])` to 
+register a group of custom elements in the config block.
+
+`.registerCollection()` takes as its argument an array of custom element definition objects each with a 
+name string and a definition config object in the same format as would be passed the `.register()` function. They 
+should be keyed as `name:` and `definition:`.
+````javascript
+var elementDefinitions = [
+    {
+        name: "el-one",
+        definition: {...}
+    },
+    {
+        name: "el-two",
+        definition: {...}
+    },
+    {
+        name: "el-three",
+        definition: {...}
+    }
+];
+
+$customElementsProvider.registerCollection( elementDefinitions );
 ````
 
 #### Options for the Custom Element config object
@@ -279,10 +307,9 @@ angular.module( 'myComponents.tagName1', ['customElements'] )
         '$customElements', function($customElements){ ...
 ````
 
-**Call $watchElement( scope, element )** in your directive link or controller function:
+**Call $watchElement( scope, element, [true (no bindings)] )** in your directive link or controller function:
 
-This is the only line of code that is required.
-It takes care of binding all custom properties
+This takes care of binding all custom properties
 to the directive's $scope including triggering a $digest() when
 any custom property is changed from outside of Angular. Two or more 
 frameworks can share the same custom elements and no boilerplate!
@@ -291,9 +318,23 @@ After this line you can enjoy the full power of AngularJS' framework tools
 when interacting with your Custom Element. You can have normal bindings
 in your templates and controllers: `$scope.el.propertyName` or `{{el.propertyName}}`.
 ````javascript
-$customElements.$watchElement( $scope, $element );
+$customElements.$watchElement( $scope, $element, [noBindings] );
 ````
+Performance edge case: Under the hood, $watchElement binds a callback function to each 
+of the custom element's property setters that calls scope.$digest() asynchronously after
+a change. This is what enables the Custom Element API to be framework independent and
+shareable between AngularJS and other frameworks, toolkits, etc.
 
+However, there is no easy way to tell where the change came from- the element directive or
+something outside of Angular's scope including a container element or another framework. This 
+means that changes coming from *within AngularJS* automatically result in a $digest() call, and then
+another $digest() occurs when the setter callback is invoked. If this module is used 
+in a very large AngularJS app that has more than 1-2 thousand active bindings, and nothing else in the page 
+outside AngularJS code could possibly cause custom element prop mutations, 
+then **pass `true` for no bindings** as the 3rd argument.
+This will prevent unnecessary double $digest() calls if there is a noticable lag in UI responsiveness. If it's
+possible to gleen where a change originated from the `prop:changed` event object (see below) you can 
+issue an *asynchronous* `$scope.$digest()` call in the callback function to update the bindings.
 
 **Custom Element instance and prototype property change events:**
 
@@ -305,7 +346,7 @@ the same component.
 $element.on( 'prop:changed', function(evt){
     $log.log(evt.detail);
     $scope.$emit(evt.detail);
-    // do stuff
+    // $timeout(function(){$scope.$digest()}, 0);
 });
 ````
 
@@ -347,6 +388,12 @@ Note that if you control the element configuration source code for X-Tags, or ev
 Polymer elements, then complete integration with matching AngularJS directives is possible with 
 about 10 extra lines of code. (examples coming soon).
 
+#### `.unresolved` class for FOUC prevention
+
+If the custom tag markup includes an **unresolved** class,
+`<custom-tag class="unresolved">` it will automatically be removed  when the element is
+upgraded. It can be used to match something like an `.unresolved: display none;` CSS rule.
+See the FAQ regarding the `:unresolved` pseudo class below.
 
 #### Directive Definition Guidelines
 
@@ -461,6 +508,16 @@ Myself and anyone who wants to help with testing across browsers and suggestion 
 Polymer and X-Tags are both great projects and have been invaluable for introducing the web development community to the upcoming [Web Components](http://www.w3.org/wiki/WebComponents/) standards.  At the core, the Custom Elements API is exactly the same. But unlike the Polymer Framework, this module only provides Custom Element integration because Custom Elements are the only standard that can be safely polyfilled across current browsers (including IE 9+) in a manner acceptable for production level code in terms of performance and risk. Polymer also uses Shadow DOM, `<template>` tags, and HTML Imports, all of which really need to be part of browser native code to function correctly, and all versions of IE through 11 are especially problematic. X-Tags, on the other hand, also focuses soley on creation of Custom Elements and is safe for production code across all browsers. But custom elements by themselves, don't really offer much.  You still need something that provides application framework features and tools such as XHR, data-binding, module loading, etc. X-Tags is standalone. It can be integrated with frameworks, but requires a lot of boilerplate code that web app developers are not familiar with.
 
 AngularCustomElement hides all the boilerplate for Custom Element generation and AngularJS integration. AngularJS has all the web app framework conveniences that X-Tags lacks including data-binding, and the 2kb Custom Element polyfill is safe for *production* use across browsers. There is no reason why any AngularJS UI component directive shouldn't be Custom Element based at this point. Getting comfortable with the Custom Element API will offer much greater shelf life for components created today.  When AngularJS 2.0 arrives this will be the default.
+
+#### What about :unresolved?
+
+The `:unresolved` pseudo class is part of the Custom Element specification.  When implemented, it matches any custom tag in the page markup that hasn't yet been upgraded to a registered custom element- presumably because the code that registers the element has yet to execute. The purpose is to hide any FOUC (flash of unstyled content) similar to the purpose of the `ngCloak` decorator directive. In cases where your custom tag resides in Angular templates `ngCloak` is sufficient to prevent FOUC. But for custom tags present in the initial markup browsers would add the `:unresolved` pseudo class which you can map to a CSS rule.
+
+CSS pseudo class application is performed by the browsers' native code, not JavaScript. Because of this it is typically not possible to polyfill CSS behavior in either a complete or performant way for browsers that do not support it yet.  The Custom Element polyfill bundled with this module was chosen because it is very small(~2kb), fast and does not include gobs of unneeded code.  It also does not try to shiv `:unresolved` behavior. As a work around you can include an `.unresolved` class on your custom tag markup, `<custom-tag class="unresolved">`, and the provider will automatically remove the class if it exists when the attached callback is invoked.
+
+#### Do I have to use the included polyfill?
+
+No, the build script and distribution directory have minified versions with and without the polyfill.  You can use Polymer's platform.js instead if you want to play with shadow DOM and HTML imports. Just keep in mind that platform.js is not suitable for use in production code compatible with current browsers.
 
 ## License and Copyright
 
