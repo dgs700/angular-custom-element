@@ -139,18 +139,17 @@
                 var n = parseFloat(v);
                 return (!isNaN(n) && isFinite(n)) ? n : v;
             }
-
-            function setterBoiler(val, el, oldVal, attr, bool) {
+            function setterBoiler(prop, val, el, oldVal, attr, bool) {
                 if(!el) return val;
                 el.setterCalled[attr] = true;
                 // this stuff should fail silently
                 try {
-                    el.onPropChange(val);
                     if(attr && bool){
                         (val) ? el.setAttribute(attr, '') : el.removeAttribute(attr);
                     } else if(attr) {
                         el.setAttribute(attr, val);
                     }
+                    el.onPropChange(val); //needs to happen last
                 } catch (e) {}
                 oldVal = (bool) ? !!el[prop] : el[prop];
                 // code outside the matching directive would use this event
@@ -224,12 +223,12 @@
                             setter = function (val) {
                                 // invoke any setter logic from user
                                 val = property.set.call(el, val);
-                                val = setterBoiler(val, el, oldVal, attr, bool);
+                                val = setterBoiler(prop, val, el, oldVal, attr, bool);
                                 value = val;
                             };
                         } else {
                             setter = function (val) {
-                                value = setterBoiler(val, el, oldVal, attr, bool);
+                                value = setterBoiler(prop, val, el, oldVal, attr, bool);
                             };
                         }
                         if(!!el){
@@ -248,6 +247,8 @@
                         }
                     });
                 })(prop, props);
+                // add instance prop to el.proto so tags
+                // aren't limited to is="parent" syntax
                 properties.forEach(function(fn){
                     fn.call(this, null);
                 });
@@ -275,9 +276,9 @@
                     if((attributeMap[attr]) && (!this.setterCalled[attr])){
                         var prop = attributeMap[attr];
                         if (prop.bool && (newVal === '')) newVal = true;
+                        this.setterCalled[attr] = false;
                         this[prop.name] = (prop.bool) ? !!newVal : checkNum(newVal);
                     }
-                    this.setterCalled[attr] = false;
                     var output = attributeChanged ? attributeChanged.apply(this, arguments) : null;
                     return output;
                 }
@@ -348,6 +349,7 @@
                             setTimeout(function(){
                                 scope.$digest();
                             }, 0);
+                            return true;
                         });
                     }
                 },
