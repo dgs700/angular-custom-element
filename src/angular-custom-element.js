@@ -164,16 +164,17 @@
                     // the functions are invoked during the createdCallback so they are
                     // scoped to the CE instance, i.e. constructor vars
                     properties.push(function (el) {
-                        var property, attr, getter, setter, value, oldVal, readOnly, bool;
+                        var property, attr, getter, setter, value, oldVal, readOnly, bool, hasAttr;
                         bool = false;
                         value = null;
                         attr = null;
                         property = props[prop];
                         readOnly = property.readOnly || false;
+                        hasAttr = (property.attribute) ? true : false;
 
                         // handle prop<-->attr binding
-                        bool = (property.attribute.boolean) ? true : false;
-                        if (property.attribute && !readOnly && !!el) {
+                        bool = (hasAttr && property.attribute.boolean) ? true : false;
+                        if (hasAttr && !readOnly && !!el) {
                             attr = (property.attribute.name) ? property.attribute.name : prop.toLowerCase();
                             attributeMap[attr] = {
                                 name: prop,
