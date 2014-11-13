@@ -18,7 +18,7 @@ Why wait for AngularJS 2.0 to start writing Angular code for the **W3C Web Compo
     - [Directive Definition Guidelines](#directive-definition-guidelines)
 - [Contributing](#contributing)
 - [FAQs and Opinions](#faqs-and-opinions)
-    - [What is AngularCustomElement?](##what-is-angularcustomelement)
+    - [What is AngularCustomElement?](#what-is-angularcustomelement)
     - [Where can it be used?](#where-can-it-be-used)
     - [When can I use it?](#when-can-i-use-it)
     - [Why would I want to use it?](#why-would-i-want-to-use-it)
@@ -462,7 +462,7 @@ Please use the [issue tracker for this repo](https://github.com/dgs700/angular-c
 
 There is a lot of code boilerplate involved in Custom Element definitions, and even more when it comes time to integrate the element with AngularJS's data-binding.  One of the goals of this provider is to reduce that down to just a little bit of configuration and convention, and keep everything as simple, minimalist, performant, and compatible as possible- just like the rest of AngularJS.
 
-This module is focused exclusively on Custom Elements because their APIs are the integration point for AngularJS and any other app framework.  Other Web Components APIs, including Shadow DOM, HTML Imports, and Template tags are beyond this scope because their usage is essentially independent of any framework internals and/or the polyfills aren't suitable for current use in widescale production code for one reason or another.
+This module is focused exclusively on Custom Elements because their APIs are the integration point for AngularJS and any other app framework.  Other Web Components APIs, including Shadow DOM, HTML Imports, and Template tags are beyond this scope because their usage is essentially independent of any framework internals and/or the polyfills aren't suitable for current use in widescale production code for one reason or another. For those wishing to use Shadow DOM and template tags within your AngularJS HTML templates and JavaScript, there is nothing in this module that would prevent you from doing so.
 
 Instead of 2-way data-binding, you can now have **3-way data-binding**.
 
