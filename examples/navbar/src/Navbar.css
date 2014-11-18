@@ -1,0 +1,63 @@
+/*
+an example of name-spacing a "singleton" component with a css #id
+this allows us to 1)override matching global styles with a
+higher specificity, and 2)prevent our component styles from
+bleeding to the rest if the page
+
+#ids should only be used for components meant to be used only
+once on a page
+
+given that this example is based off of bootstrap.css, the real component
+css would likely be much more extensive given that bootstrap.css may or
+may not be available in the host page
+*/
+#ace-navbar.navbar-inverse .navbar-brand {
+  color: #FFF;
+}
+#ace-navbar .nav a {
+  cursor: pointer;
+}
+#ace-navbar .navbar-collapse {
+  max-height: inherit;
+}
+#ace-navbar .navbar-collapse.in {
+  overflow-y: inherit;
+}
+#ace-navbar .ace-dropdown .dropdown-menu {
+  display: none;
+  background-color: #222;
+  border-color: #080808;
+  color: #999;
+}
+@media (max-width: 768px) {
+  #ace-navbar .ace-dropdown .dropdown-menu {
+    position: static;
+    float: none;
+  }
+}
+#ace-navbar .ace-dropdown .dropdown-menu li a {
+  color: #999;
+}
+#ace-navbar .ace-dropdown .dropdown-menu li a:hover {
+  color: #FFF;
+  background-color: #222;
+}
+#ace-navbar .navbar-inverse .navbar-nav .disabled > a,
+#ace-navbar .navbar-inverse .navbar-nav .disabled > a:hover,
+#ace-navbar .navbar-inverse .navbar-nav .disabled > a:focus,
+#ace-navbar .dropdown-menu > li.disabled > a,
+#ace-navbar .dropdown-menu > li.disabled > a:hover,
+#ace-navbar .dropdown-menu > li.disabled > a:focus {
+  color: #444;
+  background-color: transparent;
+}
+
+.dropdown-menu>li>a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+}

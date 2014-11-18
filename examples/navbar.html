@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html ng-app="aceComponents">
+<head>
+    <title>Container Component - NavBar</title>
+    <link href="./navbar/lib/bootstrap.min.css" rel="stylesheet">
+    <link href="./navbar/src/Navbar.css" rel="stylesheet">
+    <script src="./navbar/lib/jquery-2.1.0.min.js"></script>
+    <script src="../lib/angular.min.js"></script>
+    <script src="../dist/angular-custom-element.min.js"></script>
+    <script src="./navbar/lib/angular-sanitize.min.js"></script>
+    <script src="./navbar/lib/ui-bootstrap-collapse.js"></script>
+</head>
+<body>
+<header>
+<ace-nav-bar
+        minimal="false"
+        home-url="."
+        sticky="true"
+        theme="default">
+
+    <ace-dropdown-menu
+            text="Another DD"
+            position="right">
+        <ace-menu-item
+                class="dropdown-menu"
+                text="First Item"
+                url="http://david--shapiro.blogspot.com/"
+                ></ace-menu-item>
+        <ace-menu-item
+                class="dropdown-menu"
+                text="Second Item"
+                url="http://david--shapiro.blogspot.com/"
+                ></ace-menu-item>
+        <ace-menu-item
+                class="dropdown-menu"
+                text="No Url"
+                url=""
+                ></ace-menu-item>
+    </ace-dropdown-menu>
+
+    <ace-menu-item
+            text="Link Only"
+            url="http://david--shapiro.blogspot.com/"
+            ></ace-menu-item>
+
+</ace-nav-bar>
+</header>
+<div style="height: 2000px;background-color: yellow;">
+    a very tall div to give the page a body
+</div>
+
+<script>
+    // some fake json data for constructing a set of dropdown menus
+    // the real data would be supplied either via AJAX/REST or
+    // preferably bootstrapped with the inital page load if possible
+    var UIC = {};
+    UIC.header = [
+        {"Products":[
+            {
+                "text":"Scrum Manager",
+                "url":"/products/scrum-manager"
+            },{
+                "text":"AppBeat",
+                "url":"/products/app-beat"
+            },{
+                "text":"Solidify on Request",
+                "url":"/products/sor"
+            },{
+                "text":"IQ Everywhere",
+                "url":"/products/iq-anywhere"
+            },{
+                "text":"Service Everywhere",
+                "url":"/products/service-everywhere"
+            }
+        ]},
+        {"Pricing":[
+            {
+                "text":"Scrum Manager",
+                "url":"/pricing/scrum-manager"
+            },{
+                "text":"AppBeat",
+                "url":"/pricing/app-beat"
+            },{
+                "text":"Solidify on Request",
+                "url":"/pricing/sor"
+            },{
+                "text":"IQ Everywhere",
+                "url":"/pricing/iq-anywhere"
+            },{
+                "text":"Service Everywhere",
+                "url":"/pricing/service-everywhere"
+            }
+        ]},
+        {"Support":[
+            {
+                "text":"White Papers",
+                "url":"/support/papers"
+            },{
+                "text":"Case Studies",
+                "url":"/support/studies"
+            },{
+                "text":"Videos",
+                "url":"/support/videos"
+            },{
+                "text":"Webinars",
+                "url":"/support/webinars"
+            },{
+                "text":"Documentation",
+                "url":""
+            },{
+                "text":"News & Reports",
+                "url":"/learn/news"
+            }
+        ]},
+        {"Company":[
+            {
+                "text":"Contact Us",
+                "url":"/company/contact"
+            },{
+                "text":"Jobs",
+                "url":"/company/jobs"
+            },{
+                "text":"Privacy Statement",
+                "url":"/company/privacy"
+            },{
+                "text":"Terms of Use",
+                "url":"/company/terms"
+            }]
+        }
+    ];
+</script>
+
+<script src="./navbar/src/MenuItem.js"></script>
+<script src="./navbar/src/Dropdown.js"></script>
+<script src="./navbar/src/Navbar.js"></script>
+<script src="./navbar/src/aceComponents.js"></script>
+<!--<script>
+    angular.module('UIComponentsTest', [
+        'uiComponents.dropdown',
+        'uiComponents.navbar',
+        'ui.bootstrap.custom'
+    ]);
+</script>-->
+</body>
+</html>
