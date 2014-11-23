@@ -5,7 +5,8 @@
 
     var tpl = '';
     //@import "../../build/src/Dropdown/Dropdown.tpl.js";
-tpl = '<li class="ace-dropdown">' +
+tpl =
+    //'<li class="ace-dropdown">' +
     '    <a dropdown-toggle' +
     '       ng-bind-html="dropdownTitle"><b class="caret"></b></a>' +
     '    <ul class="dropdown-menu"' +
@@ -20,8 +21,8 @@ tpl = '<li class="ace-dropdown">' +
     '    </ul>' +
     '    <ul class="dropdown-menu"' +
     '        ng-if="!jsonData"' +
-    '        ng-transclude></ul>' +
-    '</li>';
+    '        ng-transclude></ul>';// +
+    //'</li>';
 
 
     // Dropdown Menu Component
@@ -130,7 +131,7 @@ tpl = '<li class="ace-dropdown">' +
                 restrict: 'E',
 
                 // replace custom tags with standard html5 markup
-                replace: true,
+                // replace: true,
 
                 // allow page designer to include menu item elements
                 transclude: true,
@@ -235,6 +236,8 @@ tpl = '<li class="ace-dropdown">' +
                     });
                 }],
                 link: function(scope, iElement, iAttrs, dropdownCtrl){
+
+                    iElement.addClass('li ace-dropdown');
                     dropdownCtrl.init( iElement );
 
                     // add an element ref to scope for future manipulation

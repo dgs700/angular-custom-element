@@ -4,12 +4,14 @@
     "use strict";
 
     var tpl = '';
-    tpl = '<li class="ace-menu-item" ng-class="disablable">' +
+    tpl =
+    //'<li class="ace-menu-item" ng-class="disablable">' +
     '    <a ng-href="{{ url }}"' +
     '       ng-bind="text"' +
     '       ng-click="selected($event, this)">' +
-    '    </a>' +
-    '</li>';
+    '    </a>';// +
+    //'</li>'
+
 
     angular.module('aceComponents.menuItem', [])
         // a simple menu item component directive
@@ -33,7 +35,7 @@
                     // attribute API for menu href URL
                     url: '@'
                 },
-                controller: ['$scope', function($scope, $element, $attrs){
+                controller: ['$scope', function($scope, $el, $attrs){
 
                     // the default for the "disabled" API is enabled
                     $scope.disablable = '';
@@ -53,8 +55,12 @@
                 }],
                 link: function(scope, iElement, iAttrs){
 
+                    //console.warn(iElement)
+                    iElement.addClass('li');
+
                     // add the Bootstrap "disabled" class if there is no url
-                    if(!scope.url) scope.disablable = 'disabled';
+                    //if(!scope.url) scope.disablable = 'disabled';
+                    if(!scope.url) iElement.addClass('disabled');
                 }
             };
         }]);

@@ -35,10 +35,14 @@ may not be available in the host page
     float: none;
   }
 }
-#ace-navbar .ace-dropdown .dropdown-menu li a {
+#ace-navbar .ace-dropdown .dropdown-menu li a,
+#ace-navbar .ace-dropdown .dropdown-menu .li a
+{
   color: #999;
 }
-#ace-navbar .ace-dropdown .dropdown-menu li a:hover {
+#ace-navbar .ace-dropdown .dropdown-menu li a:hover,
+#ace-navbar .ace-dropdown .dropdown-menu .li a:hover
+{
   color: #FFF;
   background-color: #222;
 }
@@ -47,12 +51,29 @@ may not be available in the host page
 #ace-navbar .navbar-inverse .navbar-nav .disabled > a:focus,
 #ace-navbar .dropdown-menu > li.disabled > a,
 #ace-navbar .dropdown-menu > li.disabled > a:hover,
-#ace-navbar .dropdown-menu > li.disabled > a:focus {
+#ace-navbar .dropdown-menu > li.disabled > a:focus,
+#ace-navbar .dropdown-menu > .li.disabled > a,
+#ace-navbar .dropdown-menu > .li.disabled > a:hover,
+#ace-navbar .dropdown-menu > .li.disabled > a:focus
+{
   color: #444;
   background-color: transparent;
 }
 
-.dropdown-menu>li>a {
+.nav > .li {
+    position: relative;
+    display: block;
+}
+
+.nav > .li > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}
+
+.dropdown-menu > li > a,
+.dropdown-menu > .li > a
+{
     display: block;
     padding: 3px 20px;
     clear: both;
@@ -60,4 +81,40 @@ may not be available in the host page
     line-height: 1.42857143;
     color: #333;
     white-space: nowrap;
+}
+
+.navbar-nav > .li > a {
+    color: #999;
+    line-height: 20px;
+}
+
+@media (min-width: 768px) {
+    .navbar-nav > .li {
+        float: left;
+    }
+    .navbar-nav > .li > a {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+}
+
+.navbar-nav > .li > a:hover,
+.navbar-nav > .li > a:focus
+{
+    color: #fff;
+    background-color: transparent;
+}
+
+.nav > .li> a:hover,
+.nav > .li > a:focus,
+.dropdown-menu > .li> a:hover,
+.dropdown-menu > .li> a:focus
+{
+    text-decoration: none;
+}
+
+.navbar-nav > .li > .dropdown-menu {
+    margin-top: 0;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
 }
