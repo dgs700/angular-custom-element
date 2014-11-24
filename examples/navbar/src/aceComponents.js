@@ -12,13 +12,13 @@
         //var objectProperty = 'blah blah';
         $customElementsProvider.registerCollection([
             {
-                name:'ace-menu-item',
+                name: 'ace-menu-item',
                 definition: {
                     parent: HTMLLIElement,
                     properties: {}
                 }
             },{
-                name:'ace-dropdown',
+                name: 'ace-dropdown-menu',
                 definition: {
                     parent: HTMLLIElement,
                     properties: {}
@@ -27,9 +27,28 @@
         ]);
 
         //var stringProperty = '';
-        $customElementsProvider.register('ace-navbar', {
+        $customElementsProvider.register( 'ace-navbar', {
             parent: HTMLDivElement,
-            properties: {}
+            properties: {
+                minimal: {
+                    attribute: {
+                        boolean: true
+                    }
+                },
+                url: {
+                    attribute: {
+                        name: 'home-url'
+                    }
+                },
+                sticky: {
+                    attribute: {
+                        boolean: true
+                    }
+                },
+                theme: {
+                    attribute: {}
+                }
+            }
             /*callbacks: {
 
                 created: function(){

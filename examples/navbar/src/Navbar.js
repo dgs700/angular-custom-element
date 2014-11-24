@@ -34,7 +34,10 @@
     '    </div>';// +
     //'</nav>';
 
-    angular.module('aceComponents.navbar', ['aceComponents.dropdown'])
+    angular.module('aceComponents.navbar', [
+        'aceComponents.dropdown',
+        'customElements'
+    ])
 
         // utility functions for nav bar population
         .service('aceNavBarService', [
@@ -77,12 +80,13 @@
         })
 
         // Navigation Bar Container Component
-        .directive('aceNavBar', [
+        .directive('aceNavbar', [
             'aceDropdownService',
             'aceNavBarService',
+            '$customElements',
             '$location',
             '$compile',
-            '$log', function( aceDropdownService, aceNavBarService, $location, $compile, $log){
+            '$log', function( aceDropdownService, aceNavBarService, $customElements, $location, $compile, $log){
                 return {
                     template: tpl,
                     restrict: 'E',
@@ -100,6 +104,8 @@
                         '$scope',
                         '$element',
                         '$attrs', function($scope, $element, $attrs){
+
+                            $customElements.$watchElement( $scope, $element );
 
                          // make sure $element is updated to the compiled/linked version
                          var that = this;

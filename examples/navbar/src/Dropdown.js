@@ -23,6 +23,7 @@ tpl =
     // Credit for portions of logic to the Angular-UI Bootstrap team
     // https://github.com/angular-ui/bootstrap
     angular.module('aceComponents.dropdown', [
+            'customElements',
             'aceComponents.menuItem',
             'ui.bootstrap.custom',
             'ngSanitize'
@@ -116,8 +117,11 @@ tpl =
 
         // Primary dropdown component direcitve
         // this is also technically a container component
-        .directive('aceDropdownMenu', ['$timeout',
-            'aceDropdownService', function($timeout, aceDropdownService){
+        .directive('aceDropdownMenu', [
+            '$customElements',
+            '$timeout',
+            'aceDropdownService',
+            function($customElements, $timeout, aceDropdownService){
             return {
                 template: tpl,
 
@@ -138,6 +142,8 @@ tpl =
                     '$scope',
                     '$element',
                     '$attrs', function($scope, $element, $attrs){
+
+                        $customElements.$watchElement( $scope, $element );
 
                     $scope.disablable = '';
                     $scope.isOpen = false;
