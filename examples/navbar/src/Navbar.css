@@ -40,6 +40,14 @@ may not be available in the host page
 {
   color: #999;
 }
+.dropdown-menu > .li > a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    white-space: nowrap;
+}
 #ace-navbar .ace-dropdown .dropdown-menu li a:hover,
 #ace-navbar .ace-dropdown .dropdown-menu .li a:hover
 {

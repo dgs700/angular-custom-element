@@ -6,24 +6,18 @@
     var tpl = '';
     //@import "../../build/src/Dropdown/Dropdown.tpl.js";
 tpl =
-    //'<li class="ace-dropdown">' +
     '    <a dropdown-toggle' +
     '       ng-bind-html="dropdownTitle"><b class="caret"></b></a>' +
     '    <ul class="dropdown-menu"' +
     '        ng-if="jsonData">' +
-    '        <li ng-repeat="item in menuItems"' +
-    '            ng-class="disablable"' +
-    '            ng-init="disablable=(item.url)?null: \'disabled\'">' +
-    '            <a ng-href="{{ item.url }}"' +
-    '               ng-bind="item.text"' +
-    '               ng-click="selected($event, this)"></a>' +
-    '        </li>' +
+    '        <ace-menu-item ng-repeat="item in menuItems"' +
+    '            text="{{item.text}}"' +
+    '            url="{{item.url}}">' +
+    '        </ace-menu-item>' +
     '    </ul>' +
     '    <ul class="dropdown-menu"' +
     '        ng-if="!jsonData"' +
-    '        ng-transclude></ul>';// +
-    //'</li>';
-
+    '        ng-transclude></ul>';
 
     // Dropdown Menu Component
     // Credit for portions of logic to the Angular-UI Bootstrap team
@@ -162,7 +156,6 @@ tpl =
                             // uses ng-bind-html for template insertion
                             $scope.dropdownTitle = dropdownTitle + '<b class="caret"></b>';
                             $scope.menuItems = menuItems;
-
                             // add a unique ID matching title string for future reference
                             $scope.aceId = dropdownTitle;
                         }

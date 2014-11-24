@@ -2,9 +2,10 @@
     'use strict';
 
     var tpl = '';
-    tpl = '<nav id="ace-navbar"' +
-    '     class="navbar navbar-inverse"' +
-    '     ng-class="[position,theme]">' +
+    tpl =
+    //'<nav id="ace-navbar"' +
+    //'     class="navbar navbar-inverse"' +
+    //'     ng-class="[position,theme]">' +
     '    <div class="container-fluid">' +
     '        <div class="navbar-header">' +
     '            <button class="navbar-toggle"' +
@@ -30,8 +31,8 @@
     '                ng-hide="minimalHeader"' +
     '                ace-include></ul>' +
     '        </div>' +
-    '    </div>' +
-    '</nav>';
+    '    </div>';// +
+    //'</nav>';
 
     angular.module('aceComponents.navbar', ['aceComponents.dropdown'])
 
@@ -88,7 +89,7 @@
 
                     // allow page designer to include dropdown elements
                     transclude: true,
-                    replace: true,
+                    //replace: true,
                     // isolate scope
                     scope: {
                         // attribute API for hiding dropdowns
@@ -223,6 +224,8 @@
                     }],
                     link: function(scope, iElement, iAttrs, navCtrl, $transclude){
 
+                        iElement.addClass('nav navbar navbar-inverse');
+                        iElement.attr('id', 'ace-navbar');
                         // know who the tenants are
                         // note that this link function executes *after*
                         // the link functions of any inner components
@@ -232,11 +235,11 @@
                         scope.registeredMenus = aceDropdownService.getDropdowns();
 
                         // Attr API option for sticky vs fixed
-                        scope.position = (iAttrs.sticky == 'true') ? 'navbar-fixed-top' : 'navbar-static-top';
-
+                        //scope.position = (iAttrs.sticky == 'true') ? 'navbar-fixed-top' : 'navbar-static-top';
+                        iElement.addClass((iAttrs.sticky == 'true') ? 'navbar-fixed-top' : 'navbar-static-top');
                         // get theme css class from attr API if set
-                        scope.theme = (iAttrs.theme) ? iAttrs.theme : null;
-
+                        //scope.theme = (iAttrs.theme) ? iAttrs.theme : null;
+                        iElement.addClass((iAttrs.theme) ? iAttrs.theme : '');
                         // send compiled/linked element back to ctrl instance
                         navCtrl.init( iElement );
                     }
