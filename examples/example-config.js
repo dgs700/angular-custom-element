@@ -45,7 +45,7 @@ app.config(['$customElementsProvider', function ($customElementsProvider) {
 
                 // include an attribute (optional) with attr name (optional) to bind the property
                 // value to an attribute value.
-                // using attribute:{} will default to the property name lowercased
+                // using attribute:{} will default to the lowercase property name
                 // If the initial markup includes an attribute value, it will be auto assigned to the
                 // property value. So you can initialize custom element props with attr string values
                 // note: number and boolean value conversion is not yet set up, and DO NOT serialize
@@ -59,7 +59,7 @@ app.config(['$customElementsProvider', function ($customElementsProvider) {
                 // UNLESS the "readOnly:true" option is included (see below)
                 attribute: {},
 
-                // the value:intialValue (optional) option may be used to set the default or initial
+                // the value:initialValue (optional) option may be used to set the default or initial
                 // value of the property
                 // NOTE: a) this may be used along with a get and/or set function option which differs from
                 // actual ES5 property definitions where that is not allowed
@@ -81,13 +81,13 @@ app.config(['$customElementsProvider', function ($customElementsProvider) {
             }
         },
 
-        // In all callbacks "this" referes to the element instance
+        // In all callbacks "this" refers to the element instance
         callbacks: {
 
             // is called upon custom element instantiation which is effectively the element
             // constructor function (for the custom parts)
-            // This happens when the browser finds a tag on load parse, or elemement is
-            // created programatically including from a template
+            // This happens when the browser finds a tag on load parse, or element is
+            // created programmatically including from a template
             created: function(){
                 // include any special logic
                 // console.log('created')
@@ -104,7 +104,7 @@ app.config(['$customElementsProvider', function ($customElementsProvider) {
                 //console.log('detached')
             },
 
-            // called upon any attribute change including attr set programatically
+            // called upon any attribute change including attr set programmatically
             // during element instantiation (but not if the elem already exists in markup)
             attributeChanged: function(attr, oldVal, newVal){
                 //console.log('attributeChanged', attr, oldVal, newVal)
