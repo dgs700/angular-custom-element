@@ -491,7 +491,8 @@ Unlike the other Web Component polyfills such as Shadow DOM, the Custom Element 
 
 #### When can I use it?
 
-From now until AngularJS 2.0 is in widescale production. AngularJS 2.0 Component Directives will replace this functionality.  It seems this lib was already deprecated before it was released :-0
+~~From now until AngularJS 2.0 is in widescale production. AngularJS 2.0 Component Directives will replace this functionality.  It seems this lib was already deprecated before it was released :-0 ~~
+As long as AngularJS 1.x.x is around which may be quite a while given that AngularJS 2.x is effectively a different framework with no simple upgrade path from 1.x.x
 
 #### How does it work?
 
