@@ -506,7 +506,7 @@ Myself and anyone who wants to help with testing across browsers and suggestion 
 
 #### How is this different from Polymer or X-Tags?
 
-Polymer and X-Tags are both great projects and have been invaluable for introducing the web development community to the upcoming [Web Components](http://www.w3.org/wiki/WebComponents/) standards.  At the core, the Custom Elements API is exactly the same. But unlike the Polymer Framework, this module only provides Custom Element integration because Custom Elements are the only standard that can be safely polyfilled across current browsers (including IE 9+) in a manner acceptable for production level code in terms of performance and risk. Polymer also uses Shadow DOM, `<template>` tags, and HTML Imports, all of which really need to be part of browser native code to function correctly, and all versions of IE through 11 are especially problematic. X-Tags, on the other hand, also focuses soley on creation of Custom Elements and is safe for production code across all browsers. But custom elements by themselves, don't really offer much.  You still need something that provides application framework features and tools such as XHR, data-binding, module loading, etc. X-Tags is standalone. It can be integrated with frameworks, but requires a lot of boilerplate code that web app developers are not familiar with.
+Polymer and X-Tags are both great projects and have been invaluable for introducing the web development community to the upcoming [Web Components](http://www.w3.org/wiki/WebComponents/) standards.  At the core, the Custom Elements API is exactly the same. But unlike the Polymer Framework, this module only provides Custom Element integration because Custom Elements are the only standard that can be safely polyfilled across current browsers (including IE 9+) in a manner acceptable for production level code in terms of performance and risk. Polymer also uses ~~Shadow DOM~~, `<template>` tags, and HTML Imports, all of which really need to be part of browser native code to function correctly, and all versions of IE through 11 are especially problematic. X-Tags, on the other hand, also focuses soley on creation of Custom Elements and is safe for production code across all browsers. But custom elements by themselves, don't really offer much.  You still need something that provides application framework features and tools such as XHR, data-binding, module loading, etc. X-Tags is standalone. It can be integrated with frameworks, but requires a lot of boilerplate code that web app developers are not familiar with.
 
 AngularCustomElement hides all the boilerplate for Custom Element generation and AngularJS integration. AngularJS has all the web app framework conveniences that X-Tags lacks including data-binding, and the 2kb Custom Element polyfill is safe for *production* use across browsers. There is no reason why any AngularJS UI component directive shouldn't be Custom Element based at this point. Getting comfortable with the Custom Element API will offer much greater shelf life for components created today.  When AngularJS 2.0 arrives this will be the default.
 
@@ -518,11 +518,11 @@ CSS pseudo class application is performed by the browsers' native code, not Java
 
 #### Do I have to use the included polyfill?
 
-No, the build script and distribution directory have minified versions with and without the polyfill.  You can use Polymer's platform.js instead if you want to play with shadow DOM and HTML imports. Just keep in mind that platform.js is not suitable for use in production code compatible with current browsers.
+No, the build script and distribution directory have minified versions with and without the polyfill.  You can use Polymer's webcomponents.js instead if you want to play with shadow DOM and HTML imports. Just keep in mind that webcomponents.js is not suitable for use in production code compatible with current browsers. Now, as of mid-2015, the non-shadow DOM version called webcomponents-lite.js should work, but hasn't yet been tested.
 
 ## License and Copyright
 
-**Copyright (c) 2014 David Shapiro**
+**Copyright (c) 2014, 2015 David Shapiro**
 
 **MIT License**
 
