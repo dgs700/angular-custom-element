@@ -7,7 +7,8 @@ app.config(['$customElementsProvider', function ($customElementsProvider) {
 
     // 3. call the .register() function with a tag name (including namespace plus dash plus name)
     // and the custom element config object (very similar to X-Tag config).
-    // TODO - add some kind of bulk register option so the source element configs can live elswhere
+    // you can alternatively register a collection of element definitions 
+    // $customElementsProvider.registerCollection( [elementDefinitions] );
     $customElementsProvider.register('smart-button', {
 
         // parent: <elem prototype> (optional) - is the element prototype we wish to inherit from
