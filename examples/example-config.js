@@ -20,6 +20,8 @@ app.config(['$customElementsProvider', function ($customElementsProvider) {
         // work around will likely be a matching tag name directive that wraps the real element,
         // or just use the real tag in the template along with the directive replace:true option for now.
         // Either way, we want the HTML monkeys to be able to use <smart-button> syntax.
+        
+        // do not use 'extends' in conjuction with 'parent'. Most cases, you just want 'parent' when extending elements
         extends: 'button',
 
         // The properties object contains definitions for the element's instance (or constructor)
