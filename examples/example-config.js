@@ -120,7 +120,7 @@ app.config(['$customElementsProvider', function ($customElementsProvider) {
                 // by calling elem.elementProtoMethod(args)
             },
 
-            // in the RARE case where a property needs to be accessable by ALL element instances of
+            // in the RARE case where a property needs to be accessible by ALL element instances of
             // this type, define it here. Any data binding to directive $scope requires an explicit event
             // listener attached to the document.
             // One example use case might be a re-themeing of all elements during a page app lifecycle.
